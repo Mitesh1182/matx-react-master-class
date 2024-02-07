@@ -8,7 +8,7 @@ const initialState = {
 
 
 const createjobslice = createSlice({
-  name: 'job',
+  name: 'jobs',
   initialState,
   reducers: {
     createJobrequest : function(state, {payload}){

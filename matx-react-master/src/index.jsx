@@ -6,14 +6,19 @@ import * as serviceWorker from './serviceWorker';
 
 // third party style
 import 'perfect-scrollbar/css/perfect-scrollbar.css';
+import { Provider } from 'react-redux';
+import store from 'store/store';
 
 const root = createRoot(document.getElementById('root'));
 
 root.render(
   <StyledEngineProvider injectFirst>
+    <Provider store={store}>
+
     <BrowserRouter>
       <App />
     </BrowserRouter>
+    </Provider>
   </StyledEngineProvider>
 );
 

@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { Stack } from '@mui/material';
 import { Box, styled } from '@mui/material';
 import { Breadcrumb} from 'app/components';
+import createjob from 'service/recruiter/recruiterjob';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -29,25 +32,37 @@ export default function CreateJob() {
         duration: 0,
         salary: 0,
       });
-    
+
+  
+      const dispatch = useDispatch();
+      const data = useSelector((state) => state.jobs)
+      console.log(data);
+      useEffect(() => {
+        dispatch(createjob());
+        
+      }, [dispatch]);
+  
+      
       const handleInput = (key, value) => {
         setJobDetails({
           ...jobDetails,
           [key]: value,
         });
+        console.log(jobDetails)
+        
       };
     
   return (
     <Container>
-    <div>
+    <div >
     <Box className="breadcrumb">
    <Breadcrumb routeSegments={[{ name: 'Recruiter', path: '/Recruiter' }, { name: 'CreateJob' }]} />
       </Box>
-      <Stack spacing={3}>
-     <Grid item>
+      <Stack spacing={3} >
+     <Grid item >
         </Grid>
-        <Grid item container xs direction="column" justify="center">
-          <Grid item>
+        <Grid item container xs direction="column" justify="center" >
+          <Grid item >
             <Paper
               style={{
                 padding: "20px",
@@ -178,7 +193,6 @@ export default function CreateJob() {
                 variant="contained"
                 color="primary"
                 style={{ padding: "10px 50px", marginTop: "30px" }}
-              
               >
                 Create Job
               </Button>
