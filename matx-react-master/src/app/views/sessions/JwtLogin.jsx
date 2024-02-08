@@ -57,7 +57,7 @@ const JwtLogin = () => {
   const handleFormSubmit = async (values) => {
     setLoading(true);
       try {
-        fetch("http://192.168.1.7:4444/auth/login",{ 
+        fetch("http://192.168.0.234:4444/auth/login",{ 
          method: "post",
          body: JSON.stringify(values),
          headers: {

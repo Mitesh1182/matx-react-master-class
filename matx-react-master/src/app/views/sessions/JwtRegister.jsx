@@ -61,7 +61,7 @@ const JwtRegister = () => {
     setLoading(true);
 
     try {
-     fetch("http://192.168.1.7:4444/auth/signup",{ 
+     fetch("http://192.168.0.234:4444/auth/signup",{ 
       method: "post",
       body: JSON.stringify(values),
       headers: {
@@ -72,7 +72,7 @@ const JwtRegister = () => {
      .then((y)=>{
        setLoading(false);
        console.log(y)
-       localStorage.setItem();
+       localStorage.setItem(y);
       
        if(!y.errors && !y.driver)
        {  navigate('/session/signin');

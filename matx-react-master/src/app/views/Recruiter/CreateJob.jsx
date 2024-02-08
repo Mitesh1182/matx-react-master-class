@@ -1,13 +1,11 @@
 import {  Button, Grid, MenuItem, Paper, TextField } from '@mui/material'
-
 import React from 'react'
 import { useState } from 'react';
 import { Stack } from '@mui/material';
 import { Box, styled } from '@mui/material';
 import { Breadcrumb} from 'app/components';
-import createjob from 'service/recruiter/recruiterjob';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { createJobrequest } from 'slice/recruiter/createjobslice';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -20,6 +18,7 @@ const Container = styled('div')(({ theme }) => ({
 
 
 export default function CreateJob() {
+
     const [jobDetails, setJobDetails] = useState({
         title: "",
         maxApplicants: 100,
@@ -27,7 +26,7 @@ export default function CreateJob() {
         deadline: new Date(new Date().getTime() + 10 * 24 * 60 * 60 * 1000)
           .toISOString()
           .substr(0, 16),
-        skillsets: [],
+        skillsets: '',
         jobType: "Full Time",
         duration: 0,
         salary: 0,
@@ -35,13 +34,13 @@ export default function CreateJob() {
 
   
       const dispatch = useDispatch();
-      const data = useSelector((state) => state.jobs)
-      console.log(data);
-      useEffect(() => {
-        dispatch(createjob());
-        
-      }, [dispatch]);
+      const data = useSelector(y=>y.job);
+      
+      const handleSubmit =()=>{
+          dispatch(createJobrequest(jobDetails))
+      }
   
+      
       
       const handleInput = (key, value) => {
         setJobDetails({
@@ -55,14 +54,14 @@ export default function CreateJob() {
   return (
     <Container>
     <div >
-    <Box className="breadcrumb">
+    <Box className="breadcrumb" >
    <Breadcrumb routeSegments={[{ name: 'Recruiter', path: '/Recruiter' }, { name: 'CreateJob' }]} />
       </Box>
       <Stack spacing={3} >
      <Grid item >
         </Grid>
-        <Grid item container xs direction="column" justify="center" >
-          <Grid item >
+        <Grid item container xs direction="column" justify="center"  >
+          <Grid item>
             <Paper
               style={{
                 padding: "20px",
@@ -97,6 +96,9 @@ export default function CreateJob() {
                     variant="outlined"
                     helperText="Press enter to add skills"
                     value={jobDetails.skillsets}
+                    onChange={(event) =>
+                      handleInput("skillsets", event.target.value)
+                    }
                    fullWidth
                   />
                 </Grid>
@@ -193,6 +195,7 @@ export default function CreateJob() {
                 variant="contained"
                 color="primary"
                 style={{ padding: "10px 50px", marginTop: "30px" }}
+                onSubmit={handleSubmit}
               >
                 Create Job
               </Button>

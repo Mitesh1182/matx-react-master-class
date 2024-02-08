@@ -10,8 +10,8 @@ function* createjob (action)
     let mydat = call(createjob, action.payload)
   yield createJobSuc(mydat)
 }
-catch{
-     yield createJobfaile(mydat)
+catch(error){
+     yield createJobfaile(error)
  }
 }
 export function* watchcreatejob ()
