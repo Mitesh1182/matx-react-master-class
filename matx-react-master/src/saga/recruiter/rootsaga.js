@@ -1,8 +1,8 @@
 
 import { all } from 'redux-saga/effects';
-import { watchcreatejob } from './createjob';
+import { watchcreatejob, watchgetjob } from './createjob';
 function* rootsaga()
 {
-    return all([watchcreatejob])
+    return yield all([watchcreatejob, watchgetjob])
 }
 export default rootsaga;

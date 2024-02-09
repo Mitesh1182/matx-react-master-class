@@ -32,11 +32,11 @@ export default function CreateJob() {
         salary: 0,
       });
 
-  
+      const data = useSelector((state)=>state.jobs);
       const dispatch = useDispatch();
-      const data = useSelector(y=>y.job);
-      
+    
       const handleSubmit =()=>{
+
           dispatch(createJobrequest(jobDetails))
       }
   
@@ -47,7 +47,6 @@ export default function CreateJob() {
           ...jobDetails,
           [key]: value,
         });
-        console.log(jobDetails)
         
       };
     
@@ -195,7 +194,7 @@ export default function CreateJob() {
                 variant="contained"
                 color="primary"
                 style={{ padding: "10px 50px", marginTop: "30px" }}
-                onSubmit={handleSubmit}
+                onClick={handleSubmit}
               >
                 Create Job
               </Button>
