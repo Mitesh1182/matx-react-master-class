@@ -17,7 +17,16 @@ const Container = styled('div')(({ theme }) => ({
 }));
 
 
-export default function CreateJob() {
+const CreateJob=()=> {
+  
+  const data = useSelector((state)=>state.jobs);
+  console.log(data);
+  const dispatch = useDispatch();
+
+  const handleSubmit =(e)=>{
+e.preventDefault()
+      dispatch(createJobrequest(jobDetails))
+  }
 
     const [jobDetails, setJobDetails] = useState({
         title: "",
@@ -31,15 +40,8 @@ export default function CreateJob() {
         duration: 0,
         salary: 0,
       });
+      
 
-      const data = useSelector((state)=>state.jobs);
-      const dispatch = useDispatch();
-    
-      const handleSubmit =()=>{
-
-          dispatch(createJobrequest(jobDetails))
-      }
-  
       
       
       const handleInput = (key, value) => {
@@ -209,3 +211,5 @@ export default function CreateJob() {
     </Container>
   )
 }
+
+export default  CreateJob
