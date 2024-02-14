@@ -24,7 +24,7 @@ const CreateJob=()=> {
   const dispatch = useDispatch();
 
   const handleSubmit =(e)=>{
-e.preventDefault()
+      e.preventDefault()
       dispatch(createJobrequest(jobDetails))
   }
 

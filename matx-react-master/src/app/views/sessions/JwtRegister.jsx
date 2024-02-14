@@ -8,6 +8,7 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
@@ -75,7 +76,8 @@ const JwtRegister = () => {
        if(!y.errors && !y.driver)
        { 
         navigate('/session/signin');
-
+        toast.success("Register successfull")
+        localStorage.setItem('token' , JSON.stringify(y))
        }
     
      }).catch((error)=>{

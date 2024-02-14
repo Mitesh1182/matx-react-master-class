@@ -6,6 +6,7 @@ import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
@@ -67,6 +68,7 @@ const JwtLogin = () => {
         }).then((y)=>y.json())
         .then((y)=>{
           localStorage.setItem('token' , JSON.stringify(y))
+          toast.success("Login successfull")
           navigate('/');
         })     
     } catch (e) {

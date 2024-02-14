@@ -36,3 +36,4 @@ export function* watchgetjob ()
 {
   return yield takeEvery(getJobrequest, getJOb)
 }
+export default createjob
