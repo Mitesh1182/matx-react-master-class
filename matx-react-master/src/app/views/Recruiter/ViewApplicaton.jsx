@@ -6,7 +6,7 @@ export default function ViewApplicaton() {
   return (
     <>
     <Container >
-         <Box className="breadcrumb">
+         <Box style={{marginTop:"15px"}} className="breadcrumb">
         <Breadcrumb routeSegments={[{ name: 'Listjobs', path: '/Recruiter/Listjobs' }, { name: 'Appllication' }]} />
       </Box>
       <Grid item >

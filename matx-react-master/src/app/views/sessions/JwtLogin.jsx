@@ -67,9 +67,16 @@ const JwtLogin = () => {
        
         }).then((y)=>y.json())
         .then((y)=>{
-          localStorage.setItem('token' , JSON.stringify(y))
-          toast.success("Login successfull")
-          navigate('/');
+          if(!y.message)
+          {
+            toast.success("Login Successfull")
+            localStorage.setItem('token' , JSON.stringify(y))
+            toast.success("Login successfull")
+            navigate('/');
+          }
+          else{
+            toast.error("Email and Password is Invalid")
+          }
         })     
     } catch (e) {
       setLoading(false);

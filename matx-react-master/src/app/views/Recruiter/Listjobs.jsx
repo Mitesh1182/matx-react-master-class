@@ -1,4 +1,4 @@
-import { Box, Button, Card, Container, Grid, Icon, Tooltip } from '@mui/material'
+import { Box, Button, Card, Container, Grid, Icon } from '@mui/material'
 import { Breadcrumb } from 'app/components'
 import React from 'react'
 import { useEffect } from 'react'
@@ -48,12 +48,12 @@ import { Link } from 'react-router-dom'
   
   return (
     
-    <Container >
-      <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: 'ListJobs', path: '/Recruiter' }, { name: 'ListJobs' }]} />
+    <Container style={{marginBottom:'30px'}} >
+      <Box style={{marginTop:"15px"}} className="breadcrumb" >
+        <Breadcrumb  routeSegments={[{ name: 'ListJobs', path: '/Recruiter' }, { name: 'ListJobs' }]}  />
       </Box>
       <Grid item style={{marginTop: "20px", marginBottom: "20px"}}>
-        <Typography variant="h3" style={{display:'flex', justifyContent:'center', fontFamily:"serif"}}>List Jobs</Typography>
+        <Typography variant="h3" style={{display:'flex', justifyContent:'center', fontFamily:"serif"}}>Job List</Typography><hr style={{width:"10%", borderColor:"rgb(25 118 210)"}}/>
       </Grid>
       { 
         <div style={{gap:"15px"}}>
@@ -87,7 +87,7 @@ import { Link } from 'react-router-dom'
           <Button onClick={handleClickOpenDelete} style={{backgroundColor:"#4791db",  color:"white", margin:"0px 0px"}} size="small">Delete</Button>
       </CardActions>
       </div>
-    </Card>
+               </Card>
                 
               )
 
@@ -150,7 +150,7 @@ import { Link } from 'react-router-dom'
                     fullWidth
                   />
         </DialogContent>
-        <DialogActions style={{display:"flex", justifyContent:"space-around", marginBottom:"14px"}}>
+        <DialogActions style={{display:"flex", justifyContent:"space-around", marginBottom:"14px",    padding: "16px 37px"}}>
           <Button onClick={handleClose} style={{backgroundColor:"red", color:"white", padding:"7px 27px"}}>Cancel</Button>
           <Button type="submit" style={{backgroundColor:"#222944", color:"white", padding:"7px 27px"}}>Update</Button>
         </DialogActions>
@@ -171,11 +171,11 @@ import { Link } from 'react-router-dom'
         </DialogTitle>
        
         <DialogActions style={{display:"flex", justifyContent:"space-around"}}>
-          <Button autoFocus onClick={handleCloseDelete} style={{backgroundColor:"#222944", color:"white", padding:"6px 18px"}}>
-            CANCEL
-          </Button>
           <Button onClick={handleCloseDelete} style={{backgroundColor:"red", color:"white", padding:"6px 18px"}} autoFocus>
             DELETE
+          </Button>
+          <Button autoFocus onClick={handleCloseDelete} style={{backgroundColor:"#222944", color:"white", padding:"6px 18px"}}>
+            CANCEL
           </Button>
         </DialogActions>
       </Dialog>

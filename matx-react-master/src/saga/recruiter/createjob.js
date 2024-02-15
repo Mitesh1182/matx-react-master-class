@@ -1,7 +1,8 @@
 
 import { takeEvery, call, put } from "redux-saga/effects";
-import createjobAPI, { getjobData } from "service/recruiter/recruiterjob";
+import createjobAPI, { getjobData, userData } from "service/recruiter/recruiterjob";
 import { createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, sucgetJobrequest } from "slice/recruiter/createjobslice";
+import { userfaile, userrequest, usersuccess } from "slice/recruiter/userSlice";
 
 
 function* createjob (action)
@@ -37,3 +38,20 @@ export function* watchgetjob ()
   return yield takeEvery(getJobrequest, getJOb)
 }
 export default createjob
+
+
+function* getuser (action)
+
+{
+  try{
+    let mydat = yield call(userData, action.payload)
+  yield put(usersuccess(mydat))
+}
+catch(error){
+     yield put(userfaile(error))
+ }
+}
+export function* watchgetuser ()
+{
+  return yield takeEvery(userrequest, getuser)
+}

@@ -15,9 +15,7 @@ const App = () => {
     <SettingsProvider>
       <AuthProvider>
         <MatxTheme>
-          <CssBaseline />
-      <ToastContainer>
-      </ToastContainer>
+          <CssBaseline />     
           {content}
         </MatxTheme>
       </AuthProvider>

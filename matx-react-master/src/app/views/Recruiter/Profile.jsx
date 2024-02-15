@@ -1,20 +1,36 @@
 import { Box, Button, Container, Grid, Paper, Stack, TextField, Typography } from '@mui/material'
 import { Breadcrumb } from 'app/components'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { userrequest } from 'slice/recruiter/userSlice'
 
 const Profile = () => {
-
-    const handleInput =()=>{
-
-    }
-    const profileDetails=()=>{
-
-    }
+  
+  const data = useSelector((state)=>state.user);
+  console.log(data);
+  const dis = useDispatch();
+  const[userdata, setUserData]=useState({
+    name: "",
+    contactNumber: "",
+    bio: ""
+  });
+  const handleInput = (key, value) => {
+    setUserData({
+      ...userdata,
+      [key]: value,
+    });
+    
+  };
+  const handleSubmit =(e)=>{
+    e.preventDefault()
+    dis (userrequest(userdata))
+}
   return (
    
     <Container>
     <div>
-    <Box className="breadcrumb">
+    <Box style={{marginTop:"15px"}} className="breadcrumb">
       <Breadcrumb routeSegments={[{ name: 'Recruiter', path: '/Recruiter' }, { name: 'Profile' }]} />
     </Box>
 
@@ -22,7 +38,7 @@ const Profile = () => {
       <Grid item>
         <Typography variant="h2" style={{display:'flex', justifyContent:'center'}}>Profile</Typography>
       </Grid>
-      <Grid item xs style={{ width: "100%" }}>
+      <Grid item xs style={{ width: "100%" , marginBottom:"35px"}}>
         <Paper
           style={{
             padding: "20px",
@@ -30,16 +46,17 @@ const Profile = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center",
-            //   width: "60%",
+            alignItems: "center"
           }}
         >
           <Grid container direction="column" alignItems="stretch" spacing={3}>
             <Grid item>
               <TextField
                 label="Name"
-                value={profileDetails.name}
-                onChange={(event) => handleInput("name", event.target.value)}
+                value={userdata.name}
+                onChange={(event) =>
+                  handleInput("name", event.target.value)
+                }
                 variant="outlined"
                 fullWidth
                 style={{ width: "100%" }}
@@ -52,7 +69,7 @@ const Profile = () => {
                 rows={8}
                 style={{ width: "100%" }}
                 variant="outlined"
-                value={profileDetails.bio}
+                value={userdata.bio}
                 onChange={(event) => {
                   if (
                     event.target.value.split(" ").filter(function (n) {
@@ -63,6 +80,14 @@ const Profile = () => {
                   }
                 }}
               />
+
+            </Grid>
+            <Grid item style={{display:"flex", justifyContent:"center"}}>
+
+            <TextField type='Number' id="outlined-basic" value={userdata.contactNumber} label="Mobile Number"
+              onChange={(event) =>
+                handleInput("contactNumber", event.target.value)
+              } variant="outlined" />
             </Grid>
             <Grid
               item
@@ -71,19 +96,13 @@ const Profile = () => {
                 justifyContent: "center",
               }}
             >
-              {/* <PhoneInput
-                country={"in"}
-                value={phone}
-                onChange={(phone) => setPhone(phone)}
-                style={{ width: "auto" }}
-              /> */}
             </Grid>
           </Grid>
           <Button
             variant="contained"
             color="primary"
             style={{ padding: "10px 50px", marginTop: "30px" }}
-            
+            onClick={handleSubmit}
           >
             Update Details
           </Button>
