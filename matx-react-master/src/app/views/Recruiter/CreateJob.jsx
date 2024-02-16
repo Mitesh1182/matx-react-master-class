@@ -41,9 +41,6 @@ const CreateJob=()=> {
         salary: 0,
       });
       
-
-      
-      
       const handleInput = (key, value) => {
         setJobDetails({
           ...jobDetails,

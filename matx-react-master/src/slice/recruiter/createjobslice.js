@@ -33,7 +33,7 @@ const createjobslice = createSlice({
     failgetJobrequest : function(state, {payload}){
       state.isloading = false;
       state.error = payload;
-  },
+  }
 
   }
 });

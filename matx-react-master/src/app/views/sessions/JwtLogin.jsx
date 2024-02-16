@@ -71,7 +71,6 @@ const JwtLogin = () => {
           {
             toast.success("Login Successfull")
             localStorage.setItem('token' , JSON.stringify(y))
-            toast.success("Login successfull")
             navigate('/');
           }
           else{

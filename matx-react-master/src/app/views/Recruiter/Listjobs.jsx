@@ -14,7 +14,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+import { putjobrequest, updatejobrequest } from 'slice/recruiter/updatejob'
+import { toast } from 'react-toastify'
  function ListJobs(){
   const {data, isloading, error ,listData} = useSelector((y)=>y.jobs);
   console.log(listData);
@@ -34,14 +37,48 @@ import { Link } from 'react-router-dom'
       setOpen(false);
     };
 
-    const [opendelete, setOpenDelete] = React.useState(false);
+    const [opendelete, setOpenDelete] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   
     const handleClickOpenDelete = () => {
       setOpenDelete(true);
     };
+// update jobs start ==----------------------->
+const updateData = useSelector((y)=>y.update.data);
+const navigate = useNavigate()
+
+
+console.log(updateData);
+const[update, setUpdate]=useState({
+  dateOfPosting:"",
+  maxApplicants:"",
+  maxPositions: ""
+});
+useEffect(()=> {
+
+  dis(updatejobrequest())
+},[])
+
+useEffect(()=> {
+
+  setUpdate(updateData)
+},[updateData])
+const handleInput = (key, value) => {
+  setUpdate({
+    ...update,
+    [key]: value,
+  });
   
+};
+const handleSubmit =(e)=>{
+  e.preventDefault()
+  dis (putjobrequest(update))
+  // navigate("/Recruiter/Profile")
+  // toast.success("User information updated successfully")
+
+}
+// update jobs end ==----------------------->
     const handleCloseDelete= () => {
       setOpenDelete(false);
     };
@@ -53,7 +90,7 @@ import { Link } from 'react-router-dom'
         <Breadcrumb  routeSegments={[{ name: 'ListJobs', path: '/Recruiter' }, { name: 'ListJobs' }]}  />
       </Box>
       <Grid item style={{marginTop: "20px", marginBottom: "20px"}}>
-        <Typography variant="h3" style={{display:'flex', justifyContent:'center', fontFamily:"serif"}}>Job List</Typography><hr style={{width:"10%", borderColor:"rgb(25 118 210)"}}/>
+        <Typography variant="h3" style={{display:'flex', justifyContent:'center', fontFamily:"serif"}}>My Job</Typography><hr style={{width:"10%", borderColor:"rgb(25 118 210)"}}/>
       </Grid>
       { 
         <div style={{gap:"15px"}}>
@@ -118,12 +155,12 @@ import { Link } from 'react-router-dom'
         <DialogContent  >
         <TextField
 
-                    type="datetime-local"
-                    // value={jobDetails.deadline}    
-                    // onChange={(event) => {
-                    //   handleInput("maxApplicants", event.target.value);
-                    // }}              
+                    type="datetime-local"           
                     variant="outlined"
+                    value={update?.dateOfPosting}
+                    onChange={(event) =>
+                      handleInput("dateOfPosting", event.target.value)
+                    }
                     fullWidth
                     style={{marginTop:"10px"}}
                   />
@@ -131,10 +168,10 @@ import { Link } from 'react-router-dom'
                     label="Maximum Number Of Applicants"
                     type="number"
                     variant="outlined"
-                    // value={jobDetails.maxApplicants}
-                    // onChange={(event) => {
-                    //   handleInput("maxApplicants", event.target.value);
-                    // }}
+                    value={update?. maxApplicants}
+                    onChange={(event) => {
+                      handleInput("maxApplicants", event.target.value);
+                    }}
                     style={{marginTop:"10px"}}
                     fullWidth
                   />
@@ -142,17 +179,17 @@ import { Link } from 'react-router-dom'
                     label="Positions Available"
                     type="number"
                     variant="outlined"
-                    // value={jobDetails.maxPositions}
-                    // onChange={(event) => {
-                    //   handleInput("maxPositions", event.target.value);
-                    // }}
+                    value={update?.maxPositions}
+                    onChange={(event) => {
+                      handleInput("maxPositions", event.target.value);
+                    }}
                     style={{marginTop:"10px"}}
                     fullWidth
                   />
         </DialogContent>
         <DialogActions style={{display:"flex", justifyContent:"space-around", marginBottom:"14px",    padding: "16px 37px"}}>
           <Button onClick={handleClose} style={{backgroundColor:"red", color:"white", padding:"7px 27px"}}>Cancel</Button>
-          <Button type="submit" style={{backgroundColor:"#222944", color:"white", padding:"7px 27px"}}>Update</Button>
+          <Button type="submit" onClick={handleSubmit} style={{backgroundColor:"#222944", color:"white", padding:"7px 27px"}}>Update</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
