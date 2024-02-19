@@ -25,6 +25,6 @@ export const getjobupdatedata =(data)=>{
     return authFetchGet('/api/jobs', 'GET', data)
 }
 export const putjobupdatedata =(data)=>{
-    return authFetch('/api/jobs', 'Put', data)
+    return authFetch('/api/jobs/', 'Put', data)
 }
 // update job  end------------
