@@ -6,6 +6,8 @@ import { Box, styled } from '@mui/material';
 import { Breadcrumb} from 'app/components';
 import { useDispatch, useSelector } from 'react-redux';
 import { createJobrequest } from 'slice/recruiter/createjobslice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -16,8 +18,8 @@ const Container = styled('div')(({ theme }) => ({
   }
 }));
 
-
 const CreateJob=()=> {
+  const navigate = useNavigate();
   
   const data = useSelector((state)=>state.jobs);
   console.log(data);
@@ -26,6 +28,8 @@ const CreateJob=()=> {
   const handleSubmit =(e)=>{
       e.preventDefault()
       dispatch(createJobrequest(jobDetails))
+      toast.success("Job Added Successfull")
+      navigate("/Recruiter/CreateJob")
   }
 
     const [jobDetails, setJobDetails] = useState({

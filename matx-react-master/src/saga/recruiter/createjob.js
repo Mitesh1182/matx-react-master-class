@@ -1,6 +1,7 @@
 
+import { toast } from "react-toastify";
 import { takeEvery, call, put } from "redux-saga/effects";
-import createjobAPI, { getjobData, userData, usergetData } from "service/recruiter/recruiterjob";
+import createjobAPI, { deletejobData, getjobData, userData, usergetData } from "service/recruiter/recruiterjob";
 import { createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, sucgetJobrequest } from "slice/recruiter/createjobslice";
 import { userdeletefaile, userdeleterequest, userdeletesuccess, userfaile, usergetfaile, usergetrequest, usergetsuccess, userrequest, usersuccess } from "slice/recruiter/userSlice";
 
@@ -70,12 +71,18 @@ export function* watchgetuserdata ()
 {
   return yield takeEvery(usergetrequest, getuserdata )
 }
+
+
+
+
 function* deleteuserdata (action)
 
 {
   try{
-    let mydat = yield call(usergetData, action.payload)
-  yield put(userdeletesuccess(mydat))
+    let Mitesh = yield call(deletejobData, action.payload)
+  yield put(userdeletesuccess(Mitesh))
+  toast.success("Job Deleted");
+  yield put(getJobrequest())
 }
 catch(error){
      yield put(userdeletefaile(error))

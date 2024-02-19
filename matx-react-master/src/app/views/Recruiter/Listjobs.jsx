@@ -18,6 +18,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { putjobrequest, updatejobrequest } from 'slice/recruiter/updatejob'
 import { toast } from 'react-toastify'
+import { userdeleterequest } from 'slice/recruiter/userSlice'
+
+
+
  function ListJobs(){
   const {data, isloading, error ,listData} = useSelector((y)=>y.jobs);
   console.log(listData);
@@ -40,10 +44,20 @@ import { toast } from 'react-toastify'
     const [opendelete, setOpenDelete] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  
-    const handleClickOpenDelete = () => {
+    
+    const [idToDelete, setIdToDelete] = useState("");
+    const handleClickOpenDelete = (id) => {
       setOpenDelete(true);
+      console.log(id);
+      setIdToDelete(id);
     };
+    const handleDelete = () => {
+      dis(userdeleterequest(idToDelete));  
+    handleCloseDelete();
+  };
+  const handleCloseDelete= () => {
+    setOpenDelete(false);
+  };
 // update jobs start ==----------------------->
 const updateData = useSelector((y)=>y.update.data);
 const navigate = useNavigate()
@@ -79,9 +93,6 @@ const handleSubmit =(e)=>{
 
 }
 // update jobs end ==----------------------->
-    const handleCloseDelete= () => {
-      setOpenDelete(false);
-    };
   
   return (
     
@@ -121,7 +132,7 @@ const handleSubmit =(e)=>{
       <CardActions style={{display:"grid"}} >
          <Link to="/Recruiter/ViewApplicaton"><Button style={{backgroundColor:"#222944", color:"white", padding:"44px 39px"}} size="small">View Application</Button></Link>
         <Button onClick={handleClickOpen} style={{backgroundColor:"rgb(25 118 210)", color:"white", margin:"0px 0px"}} size="small">Update</Button>
-          <Button onClick={handleClickOpenDelete} style={{backgroundColor:"#4791db",  color:"white", margin:"0px 0px"}} size="small">Delete</Button>
+          <Button onClick={()=>{ handleClickOpenDelete(v._id) }} style={{backgroundColor:"#4791db",  color:"white", margin:"0px 0px"}} size="small">Delete</Button>
       </CardActions>
       </div>
                </Card>
@@ -208,7 +219,7 @@ const handleSubmit =(e)=>{
         </DialogTitle>
        
         <DialogActions style={{display:"flex", justifyContent:"space-around"}}>
-          <Button onClick={handleCloseDelete} style={{backgroundColor:"red", color:"white", padding:"6px 18px"}} autoFocus>
+          <Button onClick={handleDelete} style={{backgroundColor:"red", color:"white", padding:"6px 18px"}} autoFocus>
             DELETE
           </Button>
           <Button autoFocus onClick={handleCloseDelete} style={{backgroundColor:"#222944", color:"white", padding:"6px 18px"}}>

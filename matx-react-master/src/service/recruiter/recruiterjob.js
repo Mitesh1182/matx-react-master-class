@@ -15,8 +15,8 @@ export const usergetData =(data1)=>{
 }
 
 // DELETE job data start ======-------->
-export const deletejobData =(pageId)=>{
-    return authFetchGet(`/api/jobs${pageId}`, 'DELETE',{})
+export const deletejobData =(id)=>{
+    return authFetchGet(`/api/jobs/${id}`, 'DELETE')
 }
 // DELETE job data end ======-------->
 
