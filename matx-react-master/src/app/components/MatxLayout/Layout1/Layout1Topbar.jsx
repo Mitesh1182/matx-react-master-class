@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Avatar,
   Hidden,
@@ -101,7 +101,11 @@ const Layout1Topbar = () => {
     }
     updateSidebarMode({ mode });
   };
-
+ const navigate = useNavigate()
+  const Logout =()=>{
+    localStorage. removeItem('token') 
+    navigate("/session/signup")
+  }
   return (
     <TopbarRoot>
       <TopbarContainer>
@@ -154,7 +158,7 @@ const Layout1Topbar = () => {
             </StyledItem>
 
             <StyledItem>
-              <Link to="/page-layouts/user-profile">
+              <Link to="/Recruiter/Profile">
                 <Icon> person </Icon>
                 <Span> Profile </Span>
               </Link>
@@ -165,7 +169,7 @@ const Layout1Topbar = () => {
               <Span> Settings </Span>
             </StyledItem>
 
-            <StyledItem onClick={logout}>
+            <StyledItem onClick={Logout}>
               <Icon> power_settings_new </Icon>
               <Span> Logout </Span>
             </StyledItem>
