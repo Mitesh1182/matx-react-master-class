@@ -1,7 +1,7 @@
 import { useTheme } from '@emotion/react';
 import { LoadingButton } from '@mui/lab';
 import { ButtonGroup, Card, Checkbox, Grid, TextField } from '@mui/material';
-import { Box, styled } from '@mui/material';
+import { Box } from '@mui/material';
 import { Paragraph } from 'app/components/Typography';
 import useAuth from 'app/hooks/useAuth';
 import axios from 'axios';
@@ -9,10 +9,12 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import styled from '@emotion/styled';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import ArticleIcon from '@mui/icons-material/Article';
 import Button from '@mui/material/Button';
 import BackupIcon from '@mui/icons-material/Backup';
+import makeStyles from '@emotion/styled';
 import * as Yup from 'yup';
 
 
@@ -56,9 +58,8 @@ const initialValues = {
   email: '',
   password: '',
   name: '',
-  contactNumber :'',
-  bio :'',
-  type: "recruiter"
+  skills:'',
+  type: "applicant"
 };
 
 // form field validation schema
@@ -78,46 +79,145 @@ const JwtRegisterApplicant = () => {
   const handleFormSubmit = (values) => {
     setLoading(true);
 
-    // try {
-    //  fetch("http://localhost:4444/auth/signup",{ 
-    //   method: "post",
-    //   body: JSON.stringify(values),
-    //   headers: {
-    //     'content-type': "application/json"
-    //   }
+    try {
+     fetch("http://localhost:4444/auth/signup",{ 
+      method: "POST",
+      body: JSON.stringify(values),
+      headers: {
+        'content-type': "application/json"
+      }
     
-    //  }).then(y=>y.json())
-    //  .then((y)=>{
-    //    setLoading(false);
-      
-    //    if(!y.errors && !y.driver)
-    //    { 
-    //     navigate('/session/signin');
-    //     toast.success("Register successfull")
-    //     localStorage.setItem('token' , JSON.stringify(y))
-    //    }
+     }).then(y=>y.json())
+     .then((y)=>{
+       setLoading(false);
+      console.log(y)
+       if(!y.errors && !y.driver)
+       { 
+        // navigate('/session/signin');
+        toast.success("Register successfull")
+        localStorage.setItem('tokenForapplicant' , JSON.stringify(y))
+       }
     
-    //  }).catch((error)=>{
-
-    //   console.log(error);
-    //     alert("This Email is Already exiting");
-    //  })
-    // } catch (e) {
-    //   console.log(e);
-    //   setLoading(false);
-    // }
+     }).catch((error)=>{
+       console.log(error);
+        alert("This Email is Already exiting");
+     })
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
   };
-
+  // const useStyles = makeStyles((theme) => ({
+  //   body: {
+  //     padding: "60px 60px",
+  //   },
+  //   inputBox: {
+  //     width: "100%",
+  //     height:"10%"
+  //   },
+  //   submitButton: {
+  //     width: "400px",
+  //   },
+  // }));
+  // const MultifieldInput = (props) => {
+  //   const classes = useStyles();
+  //   // const { education, setEducation } = props;
+  //   const [education, setEducation] = useState([
+  //     {
+  //       institutionName: "",
+  //       startYear: "",
+  //       endYear: "",
+  //     },
+  //   ]);
+     
+    
+  //     return (
+  //       <>
+  //         {education.map((obj, key) => (
+  //           <Grid
+  //             item
+  //             container
+  //             className={classes.inputBox}
+  //             key={key}
+  //             style={{ paddingLeft: 0, paddingRight: 0 }}
+  //           >
+  //             <Grid item xs={6}>
+  //               <TextField
+  //                 // label={Institution Name #${key + 1}}
+  //                 value={education[key].institutionName}
+  //                 // onChange={(event) => {
+  //                 //   const newEdu = [...education];
+  //                 //   newEdu[key].institutionName = event.target.value;
+  //                 //   setEducation(newEdu);
+  //                 // }}
+  //                 variant="outlined"
+  //               />
+  //             </Grid>
+  //             <Grid item xs={3}>
+  //               <TextField
+  //                 label="Start Year"
+  //                 value={obj.startYear}
+  //                 variant="outlined"
+  //                 type="number"
+  //                 // onChange={(event) => {
+  //                 //   const newEdu = [...education];
+  //                 //   newEdu[key].startYear = event.target.value;
+  //                 //   setEducation(newEdu);
+  //                 // }}
+  //               />
+  //             </Grid>
+  //             <Grid item xs={3}>
+  //               <TextField
+  //                 label="EndYear"
+  //                 value={obj.endYear}
+  //                 variant="outlined"
+  //                 type="number"
+  //                 // onChange={(event) => {
+  //                 //   const newEdu = [...education];
+  //                 //   newEdu[key].endYear = event.target.value;
+  //                 //   setEducation(newEdu);
+  //                 // }}
+  //               />
+  //             </Grid>
+  //           </Grid>
+  //         ))}
+  //         <br/>
+  //         <Grid item>
+         
+  //           <Button style={{backgroundColor:'#AC0606',color:'white'}}
+  //            fullWidth
+  //             variant="contained"
+  //             color="secondary"
+  //             onClick={() =>
+  //               setEducation([
+  //                 ...education,
+  //                 {
+  //                   institutionName: "",
+  //                   startYear: "",
+  //                   endYear: "",
+  //                 },
+  //               ])
+  //             }
+  //             className={classes.inputBox}
+  //           >
+  //             ADD ANOTHER INSTITUTE DETAILS
+  //           </Button>
+  //         </Grid>
+  //       </>
+  //     );
+  //   };
+   
   return (
     <JWTRegister>
       <Card className="card">
         <Grid container>
-          <Grid item sm={6} xs={12}>
-            <ContentBox>
+          <Grid item sm={6} xs={12} >
+            <ContentBox style={{backgroundColor:"white"}}>
               <img
-                width="100%"
+              
+                width="139%"
                 alt="Register"
-                src="/assets/images/illustrations/posting_photo.svg"
+                src="/assets/images/singup5.jpg"
               />
             </ContentBox>
           </Grid>
@@ -175,18 +275,26 @@ const JwtRegisterApplicant = () => {
                       sx={{ mb: 2 }}
                     />
 
-                      <TextField
+                            {/* <MultifieldInput xs={3}
+                        // education={education}
+                        // setEducation={setEducation}
+                        name="education"
+                        label="education"
+                      variant="outlined"
+                      /> */}
+
+                      <TextField 
+                       style={{marginTop:"18px"}}
                       fullWidth
                       size="small"
                       type="text"
-                      name="Skill"
+                      name="skills"
                       label="Skills"
-                      variant="outlined"
                       onBlur={handleBlur}
                       value={values.Skill}
                       onChange={handleChange}
-                      helperText={touched.Skill && errors.Skill}
-                      error={Boolean(errors.Skill && touched.Skill)}
+                      helperText={touched.skills && errors.skills}
+                      error={Boolean(errors.skills && touched.skills)}
                       sx={{ mb: 3 }}
                     />
                     <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{ mb: 3 }} fullWidth>
@@ -218,7 +326,7 @@ const JwtRegisterApplicant = () => {
                             </ButtonGroup>
 
 
-                            <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{ mb: 3 }} fullWidth>
+                        <ButtonGroup variant="outlined" aria-label="Basic button group" sx={{ mb: 3 }} fullWidth>
                         
                         <Button
                              style={{height:"36px", width:"40%"}}
@@ -264,6 +372,7 @@ const JwtRegisterApplicant = () => {
                       color="primary"
                       loading={loading}
                       variant="contained"
+
                       sx={{ mb: 2, mt: 3 }}
                     >
                       Regiser

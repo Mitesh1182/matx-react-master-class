@@ -39,6 +39,7 @@ const Profile = () => {
   const handleSubmit =(e)=>{
     e.preventDefault()
     dis (userrequest(userdata))
+    localStorage.setItem('name' , userdata.name)
     navigate("/Recruiter/Profile")
     toast.success("User information updated successfully")
 

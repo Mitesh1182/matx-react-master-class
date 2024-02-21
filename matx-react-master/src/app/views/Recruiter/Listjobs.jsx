@@ -409,44 +409,43 @@ const FilterPopup = (props) => {
       console.log(id);
       setIdToDelete(id);
     };
+    
     const handleDelete = () => {
       dis(userdeleterequest(idToDelete));  
-    handleCloseDelete();
-  };
+      handleCloseDelete();
+    };
   const handleCloseDelete= () => {
     setOpenDelete(false);
   };
 
-// update jobs start ==----------------------->
+  // update jobs start ==----------------------->
+  const [idToUpdate, setIdToUpdate] = useState("");
+  const handleClickOpenUpdate = (id) => {
+    setOpen(true);
+    
+    setIdToDelete(id);
+  }
 const updateData = useSelector((y)=>y.update.data);
 const navigate = useNavigate()
-
-
 console.log(updateData);
-const[update, setUpdate]=useState({
-  dateOfPosting:"",
-  maxApplicants:"",
-  maxPositions: ""
-});
 useEffect(()=> {
 
-  dis(updatejobrequest())
-},[])
-
+  dis(updatejobrequest(idToUpdate))
+},[idToUpdate])
 useEffect(()=> {
 
-  setUpdate(updateData)
-},[updateData])
+  setIdToUpdate(idToUpdate)
+},[idToUpdate])
 const handleInput = (key, value) => {
-  setUpdate({
-    ...update,
+  setIdToUpdate({
+    ...idToUpdate,
     [key]: value,
   });
   
 };
 const handleSubmit =(e)=>{
   e.preventDefault()
-  dis (putjobrequest(update))
+  dis (putjobrequest(idToUpdate))
   navigate("/Recruiter/Listjobs")
   toast.success("User information updated successfully")
 
@@ -553,7 +552,7 @@ const [searchOptions, setSearchOptions] = useState({
       
       <CardActions style={{display:"grid"}} >
          <Link to="/Recruiter/ViewApplicaton"><Button style={{backgroundColor:"#222944", color:"white", padding:"44px 39px"}} size="small">View Application</Button></Link>
-        <Button onClick={handleClickOpen} style={{backgroundColor:"rgb(25 118 210)", color:"white", margin:"0px 0px"}} size="small">Update</Button>
+        <Button onClick={()=>{ handleClickOpenUpdate(v._id) }} style={{backgroundColor:"rgb(25 118 210)", color:"white", margin:"0px 0px"}} size="small">Update</Button>
           <Button onClick={()=>{ handleClickOpenDelete(v._id) }} style={{backgroundColor:"#4791db",  color:"white", margin:"0px 0px"}} size="small">Delete</Button>
       </CardActions>
       </div>
@@ -590,7 +589,7 @@ const [searchOptions, setSearchOptions] = useState({
 
                     type="datetime-local"           
                     variant="outlined"
-                    value={update?.dateOfPosting}
+                    value={idToUpdate?.dateOfPosting}
                     onChange={(event) =>
                       handleInput("dateOfPosting", event.target.value)
                     }
@@ -601,7 +600,7 @@ const [searchOptions, setSearchOptions] = useState({
                     label="Maximum Number Of Applicants"
                     type="number"
                     variant="outlined"
-                    value={update?. maxApplicants}
+                    value={idToUpdate?. maxApplicants}
                     onChange={(event) => {
                       handleInput("maxApplicants", event.target.value);
                     }}
@@ -612,7 +611,7 @@ const [searchOptions, setSearchOptions] = useState({
                     label="Positions Available"
                     type="number"
                     variant="outlined"
-                    value={update?.maxPositions}
+                    value={idToUpdate?.maxPositions}
                     onChange={(event) => {
                       handleInput("maxPositions", event.target.value);
                     }}

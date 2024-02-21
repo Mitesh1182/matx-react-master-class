@@ -17,7 +17,7 @@ const userslice = createSlice({
     },
     usersuccess : function(state, {payload}){
         state.isloading = false;
-        state.data = payload;
+        state.data = payload;       
     },
     userfaile : function(state, {payload}){
         state.isloading = false;
