@@ -1,8 +1,8 @@
 
 import { toast } from "react-toastify";
 import { takeEvery, call, put } from "redux-saga/effects";
-import createjobAPI, { deletejobData, getjobData, userData, usergetData } from "service/recruiter/recruiterjob";
-import { createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, sucgetJobrequest } from "slice/recruiter/createjobslice";
+import createjobAPI, { deletejobData, getjobData, searchgetJobDataSearch, userData, usergetData } from "service/recruiter/recruiterjob";
+import { createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, searchfailgetJobrequest, searchgetJobrequest, searchsucgetJobrequest, sucgetJobrequest } from "slice/recruiter/createjobslice";
 import { userdeletefaile, userdeleterequest, userdeletesuccess, userfaile, usergetfaile, usergetrequest, usergetsuccess, userrequest, usersuccess } from "slice/recruiter/userSlice";
 
 
@@ -38,7 +38,22 @@ export function* watchgetjob ()
 {
   return yield takeEvery(getJobrequest, getJOb)
 }
-export default createjob
+
+function* searchgetJOb (action)
+
+{
+  try{
+    let mydat = yield call(searchgetJobDataSearch, action.payload)
+  yield put(searchsucgetJobrequest(mydat))
+}
+catch(error){
+     yield put(searchfailgetJobrequest(error))
+ }
+}
+export function* watchsearchgetjob ()
+{
+  return yield takeEvery(searchgetJobrequest, searchgetJOb)
+}
 
 
 function* getuser (action)

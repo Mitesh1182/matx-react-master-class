@@ -45,7 +45,7 @@ const Sidenav = ({ children }) => {
   return (
     <Fragment>
       <StyledScrollBar options={{ suppressScrollX: true }}>
-        {children}
+        {/* {children} */}
         <MatxVerticalNav items={navigations} />
       </StyledScrollBar>
 

@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getJobrequest } from 'slice/recruiter/createjobslice'
+import { getJobrequest, searchgetJobrequest } from 'slice/recruiter/createjobslice'
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -382,6 +382,7 @@ const FilterPopup = (props) => {
 
  function ListJobs(){
   const {data, isloading, error ,listData} = useSelector((y)=>y.jobs);
+  console.log(data);
   console.log(listData);
      const dis = useDispatch()
 
@@ -422,8 +423,7 @@ const FilterPopup = (props) => {
   const [idToUpdate, setIdToUpdate] = useState("");
   const handleClickOpenUpdate = (id) => {
     setOpen(true);
-    
-    setIdToDelete(id);
+    setIdToUpdate(id);
   }
 const updateData = useSelector((y)=>y.update.data);
 const navigate = useNavigate()
@@ -443,14 +443,26 @@ const handleInput = (key, value) => {
   });
   
 };
-const handleSubmit =(e)=>{
+const handleSubmitForUpdate =(e)=>{
   e.preventDefault()
-  dis (putjobrequest(idToUpdate))
+  dis (putjobrequest(updateData))
   navigate("/Recruiter/Listjobs")
   toast.success("User information updated successfully")
-
+  handleClose()
 }
 // update jobs end ==----------------------->
+// search jobs start ==----------------------->
+const handleSubmitForsearch=(e)=>{
+  dis (searchgetJobrequest({
+    pageNumber : 1,
+    searchTerm : e.target.value
+  }))
+
+}
+
+
+// search jobs end ==----------------------->
+
 
 // Filter start ------------>
 
@@ -495,6 +507,7 @@ const [searchOptions, setSearchOptions] = useState({
         <Grid item style={{display:'flex', justifyContent:'center'}} >
               <TextField
                 label="Search Jobs"
+                onBlur={handleSubmitForsearch}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment>
@@ -589,7 +602,10 @@ const [searchOptions, setSearchOptions] = useState({
 
                     type="datetime-local"           
                     variant="outlined"
-                    value={idToUpdate?.dateOfPosting}
+                    value={updateData?.dateOfPosting}
+                    InputLabelProps={{
+                      shrink: true,
+                        }}
                     onChange={(event) =>
                       handleInput("dateOfPosting", event.target.value)
                     }
@@ -598,9 +614,12 @@ const [searchOptions, setSearchOptions] = useState({
                   />
                    <TextField
                     label="Maximum Number Of Applicants"
-                    type="number"
+                   InputLabelProps={{
+                    shrink: true,
+                      }}
+                     type="number"
                     variant="outlined"
-                    value={idToUpdate?. maxApplicants}
+                    value={updateData?.maxApplicants}
                     onChange={(event) => {
                       handleInput("maxApplicants", event.target.value);
                     }}
@@ -611,17 +630,33 @@ const [searchOptions, setSearchOptions] = useState({
                     label="Positions Available"
                     type="number"
                     variant="outlined"
-                    value={idToUpdate?.maxPositions}
+                    InputLabelProps={{
+                      shrink: true,
+                        }}
+                    value={updateData?.maxPositions}
                     onChange={(event) => {
                       handleInput("maxPositions", event.target.value);
                     }}
                     style={{marginTop:"10px"}}
                     fullWidth
                   />
+                   <Grid item>
+                   <TextField
+                    label="Salary"
+                    type="number"
+                    variant="outlined"
+                    value={updateData?.salary}
+                    onChange={(event) => {
+                      handleInput("salary", event.target.value);
+                    }}
+                   
+                    fullWidth
+                  />
+                </Grid>
         </DialogContent>
         <DialogActions style={{display:"flex", justifyContent:"space-around", marginBottom:"14px",    padding: "16px 37px"}}>
           <Button onClick={handleClose} style={{backgroundColor:"red", color:"white", padding:"7px 27px"}}>Cancel</Button>
-          <Button type="submit" onClick={handleSubmit} style={{backgroundColor:"#222944", color:"white", padding:"7px 27px"}}>Update</Button>
+          <Button type="submit" onClick={handleSubmitForUpdate} style={{backgroundColor:"#222944", color:"white", padding:"7px 27px"}}>Update</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

@@ -8,6 +8,7 @@ import materialRoutes from 'app/views/material-kit/MaterialRoutes';
 import RecruiterRoutes from './views/Recruiter/RecruiterRoutes';
 import JwtLoginApplicant from './views/sessions/JwtLoginApplicant';
 import JwtRegisterApplicant from './views/sessions/JwtRegisterApplicant';
+import ApplicantRoutes from './views/applicant/ApplicantRoutes';
 
 // session pages
 const NotFound = Loadable(lazy(() => import('app/views/sessions/NotFound')));
@@ -31,6 +32,7 @@ const routes = [
     children: [
       ...materialRoutes,
       ...RecruiterRoutes,
+      ...ApplicantRoutes,
       // dashboard route
       {
         path: '/dashboard/default',

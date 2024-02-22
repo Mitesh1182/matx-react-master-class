@@ -165,7 +165,7 @@ const JwtLoginApplicant = () => {
                     <Paragraph>
                       Don't have an account?
                       <NavLink
-                        to="/session/signup"
+                        to="/session/signupForApplicant"
                         style={{ color: theme.palette.primary.main, marginLeft: 5 }}
                       >
                         Register

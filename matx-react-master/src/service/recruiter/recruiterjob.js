@@ -19,10 +19,16 @@ export const deletejobData =(id)=>{
     return authFetchGet(`/api/jobs/${id}`, 'DELETE')
 }
 // DELETE job data end ======-------->
+// SEARCH job data start ======-------->
+export const searchgetJobDataSearch = (obj) => {
+
+    return authFetchGet(`/api/jobs?myjobs=${obj.pageNumber}&q=${obj.searchTerm}`, 'GET');
+}
+// SEARCH job data end ======-------->
 
 // update job  start------------
 export const getjobupdatedata =(data)=>{
-    return authFetchGet('/api/jobs', 'GET', data)
+    return authFetchGet('/api/jobs/'+data, 'GET')
 }
 export const putjobupdatedata =(data)=>{
     return authFetch('/api/jobs/', 'Put', data)

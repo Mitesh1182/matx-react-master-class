@@ -105,11 +105,12 @@ const Layout1Topbar = () => {
   };
   const [name , setName]= useState("");
   useEffect(()=>{
-    setName(localStorage.getItem('name'))
+    setName(localStorage.getItem('Name'))
   })
  const navigate = useNavigate()
   const Logout =()=>{
     localStorage. removeItem('token') 
+    localStorage. removeItem('Name') 
     navigate("/session/signup")
   }
   return (

@@ -78,6 +78,7 @@ const JwtRegister = () => {
         navigate('/session/signin');
         toast.success("Register successfull")
         localStorage.setItem('token' , JSON.stringify(y))
+        localStorage.setItem('Name' , values.name)
        }
     
      }).catch((error)=>{
