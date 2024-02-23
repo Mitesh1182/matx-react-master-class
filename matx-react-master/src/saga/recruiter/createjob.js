@@ -1,8 +1,8 @@
 
 import { toast } from "react-toastify";
 import { takeEvery, call, put } from "redux-saga/effects";
-import createjobAPI, { deletejobData, getjobData, searchgetJobDataSearch, userData, usergetData } from "service/recruiter/recruiterjob";
-import { createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, searchfailgetJobrequest, searchgetJobrequest, searchsucgetJobrequest, sucgetJobrequest } from "slice/recruiter/createjobslice";
+import createjobAPI, { advancedsearchgetJobDataSearch, deletejobData, getjobData, searchgetJobDataSearch, userData, usergetData } from "service/recruiter/recruiterjob";
+import { advancedsearchfailgetJobrequest, advancedsearchgetJobrequest, advancedsearchsucgetJobrequest, createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, searchfailgetJobrequest, searchgetJobrequest, searchsucgetJobrequest, sucgetJobrequest } from "slice/recruiter/createjobslice";
 import { userdeletefaile, userdeleterequest, userdeletesuccess, userfaile, usergetfaile, usergetrequest, usergetsuccess, userrequest, usersuccess } from "slice/recruiter/userSlice";
 
 
@@ -39,21 +39,40 @@ export function* watchgetjob ()
   return yield takeEvery(getJobrequest, getJOb)
 }
 
+// search start ===------>
 function* searchgetJOb (action)
 
 {
   try{
     let mydat = yield call(searchgetJobDataSearch, action.payload)
-  yield put(searchsucgetJobrequest(mydat))
-}
-catch(error){
-     yield put(searchfailgetJobrequest(error))
- }
+    yield put(searchsucgetJobrequest(mydat))
+  }
+  catch(error){
+    yield put(searchfailgetJobrequest(error))
+  }
 }
 export function* watchsearchgetjob ()
 {
   return yield takeEvery(searchgetJobrequest, searchgetJOb)
 }
+// search end ===------>
+//  advanced search start ===------>
+function* advancedsearchgetJOb (action)
+
+{
+  try{
+    let mydat = yield call(advancedsearchgetJobDataSearch, action.payload)
+    yield put(advancedsearchsucgetJobrequest(mydat))
+  }
+  catch(error){
+    yield put(advancedsearchfailgetJobrequest(error))
+  }
+}
+export function* watchadvancedsearchgetjob ()
+{
+  return yield takeEvery(advancedsearchgetJobrequest, advancedsearchgetJOb)
+}
+// advanced search end ===------>
 
 
 function* getuser (action)

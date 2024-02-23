@@ -44,6 +44,17 @@ const createjobslice = createSlice({
     searchfailgetJobrequest : function(state, {payload}){
       state.isloading = false;
       state.error = payload;
+  },
+    advancedsearchgetJobrequest : function(state, {payload}){
+      state.isloading = true;
+  },
+  advancedsearchsucgetJobrequest : function(state, {payload}){
+      state.isloading = false;
+      state.listData = payload;
+  },
+  advancedsearchfailgetJobrequest : function(state, {payload}){
+      state.isloading = false;
+      state.error = payload;
   }
 
   }
@@ -57,6 +68,9 @@ export const {createJobrequest,
   searchgetJobrequest,
   searchsucgetJobrequest,
   searchfailgetJobrequest,
+  advancedsearchgetJobrequest,
+  advancedsearchsucgetJobrequest,
+  advancedsearchfailgetJobrequest,
   failgetJobrequest
 } = createjobslice.actions
 

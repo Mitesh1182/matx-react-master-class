@@ -25,12 +25,22 @@ export const searchgetJobDataSearch = (obj) => {
     return authFetchGet(`/api/jobs?myjobs=${obj.pageNumber}&q=${obj.searchTerm}`, 'GET');
 }
 // SEARCH job data end ======-------->
+// advanced SEARCH job data start ======-------->
+export const advancedsearchgetJobDataSearch = (obj) => {
+//  let url = `/api/jobs?myjobs=${obj.pageNumber}`
+//  if(obj.jobtype)
+//  {
+//     url = url + '&jobtype' + obj.jobtype
+//  }
+    return authFetchGet(`/api/jobs?myjobs=${obj.pageNumber}&jobType=${obj.searchOptions.jobType.fullTime}&salary=${obj.searchOptions.salary}&duration=${obj.searchOptions.duration}&asc=${obj.searchOptions.sort.salary}`, 'GET', obj);
+}
+// advanced SEARCH job data end ======-------->
 
 // update job  start------------
 export const getjobupdatedata =(data)=>{
     return authFetchGet('/api/jobs/'+data, 'GET')
 }
 export const putjobupdatedata =(data)=>{
-    return authFetch('/api/jobs/', 'Put', data)
+    return authFetch(`/api/jobs/${data._id}`, 'Put', data)
 }
 // update job  end------------

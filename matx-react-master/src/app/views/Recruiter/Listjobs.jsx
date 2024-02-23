@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getJobrequest, searchgetJobrequest } from 'slice/recruiter/createjobslice'
+import { advancedsearchfailgetJobrequest, getJobrequest, searchgetJobrequest } from 'slice/recruiter/createjobslice'
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -368,7 +368,7 @@ const FilterPopup = (props) => {
               variant="contained"
               color="primary"
               style={{ padding: '10px 50px' }}
-              onClick={() => getData()}
+              onClick={() => handleSubmitForadvancedsearch()}
             >
               Apply
             </Button>
@@ -420,33 +420,41 @@ const FilterPopup = (props) => {
   };
 
   // update jobs start ==----------------------->
+  const updateData = useSelector((y)=>y.update.data);
+  console.log(updateData);
+  const [update, setUpdate]= useState({
+  maxApplicants : "",
+  maxPositions :"",
+  salary :  ""
+  })
   const [idToUpdate, setIdToUpdate] = useState("");
+
+  
   const handleClickOpenUpdate = (id) => {
     setOpen(true);
     setIdToUpdate(id);
   }
-const updateData = useSelector((y)=>y.update.data);
 const navigate = useNavigate()
-console.log(updateData);
 useEffect(()=> {
 
   dis(updatejobrequest(idToUpdate))
 },[idToUpdate])
 useEffect(()=> {
 
-  setIdToUpdate(idToUpdate)
-},[idToUpdate])
+  setUpdate(updateData)
+},[updateData])
+
 const handleInput = (key, value) => {
-  setIdToUpdate({
-    ...idToUpdate,
+  setUpdate({
+    ...update,
     [key]: value,
   });
   
 };
 const handleSubmitForUpdate =(e)=>{
   e.preventDefault()
-  dis (putjobrequest(updateData))
-  navigate("/Recruiter/Listjobs")
+  dis (putjobrequest(update))
+  // navigate("/Recruiter/Listjobs")
   toast.success("User information updated successfully")
   handleClose()
 }
@@ -462,6 +470,17 @@ const handleSubmitForsearch=(e)=>{
 
 
 // search jobs end ==----------------------->
+// advanced search jobs start ==----------------------->
+const handleSubmitForadvancedsearch=()=>{
+  dis (advancedsearchfailgetJobrequest({
+    ...searchOptions,
+    pageNumber : 1
+  }))
+
+}
+
+
+// advanced search jobs end ==----------------------->
 
 
 // Filter start ------------>
@@ -512,7 +531,7 @@ const [searchOptions, setSearchOptions] = useState({
                   endAdornment: (
                     <InputAdornment>
                       <IconButton>
-                        <SearchIcon  />
+                        <SearchIcon />
                       </IconButton>
                     </InputAdornment>
                   )
@@ -598,20 +617,6 @@ const [searchOptions, setSearchOptions] = useState({
       >
         <DialogTitle style={{textAlign:"center"}} >Update Details</DialogTitle>
         <DialogContent  >
-        <TextField
-
-                    type="datetime-local"           
-                    variant="outlined"
-                    value={updateData?.dateOfPosting}
-                    InputLabelProps={{
-                      shrink: true,
-                        }}
-                    onChange={(event) =>
-                      handleInput("dateOfPosting", event.target.value)
-                    }
-                    fullWidth
-                    style={{marginTop:"10px"}}
-                  />
                    <TextField
                     label="Maximum Number Of Applicants"
                    InputLabelProps={{
@@ -619,7 +624,7 @@ const [searchOptions, setSearchOptions] = useState({
                       }}
                      type="number"
                     variant="outlined"
-                    value={updateData?.maxApplicants}
+                    value={update?.maxApplicants}
                     onChange={(event) => {
                       handleInput("maxApplicants", event.target.value);
                     }}
@@ -633,7 +638,7 @@ const [searchOptions, setSearchOptions] = useState({
                     InputLabelProps={{
                       shrink: true,
                         }}
-                    value={updateData?.maxPositions}
+                    value={update?.maxPositions}
                     onChange={(event) => {
                       handleInput("maxPositions", event.target.value);
                     }}
@@ -642,10 +647,14 @@ const [searchOptions, setSearchOptions] = useState({
                   />
                    <Grid item>
                    <TextField
+                   style={{marginTop:"10px"}}
                     label="Salary"
                     type="number"
+                    InputLabelProps={{
+                      shrink: true,
+                        }}
                     variant="outlined"
-                    value={updateData?.salary}
+                    value={update?.salary}
                     onChange={(event) => {
                       handleInput("salary", event.target.value);
                     }}

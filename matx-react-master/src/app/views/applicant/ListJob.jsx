@@ -428,6 +428,18 @@ const handleClose = () => {
   setOpen(false);
 };
 // Filter end ------------>
+// search jobs start ==----------------------->
+const handleSubmitForsearch=(e)=>{
+  dis (searchgetJobrequest({
+    pageNumber : 1,
+    searchTerm : e.target.value
+  }))
+
+}
+
+
+// search jobs end ==----------------------->
+
   return (
     
     <Container style={{marginBottom:'30px'}} >
@@ -440,7 +452,7 @@ const handleClose = () => {
         <Grid item style={{display:'flex', justifyContent:'center'}} >
               <TextField
                 label="Search Jobs"
-                // onBlur={handleSubmitForsearch}
+                onBlur={handleSubmitForsearch}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment>

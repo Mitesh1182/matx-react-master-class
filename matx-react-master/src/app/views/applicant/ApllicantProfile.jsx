@@ -18,6 +18,8 @@ import makeStyles from '@emotion/styled';
 import * as Yup from 'yup';
 import React from 'react'
 import { Breadcrumb } from 'app/components';
+import { useDispatch, useSelector } from 'react-redux';
+import { userrequest } from 'slice/recruiter/userSlice';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -61,8 +63,8 @@ const ApllicantProfile = () => {
         },
       }));
       const MultifieldInput = (props) => {
+        // const { education, setEducation } = props;  
         const classes = useStyles();
-        // const { education, setEducation } = props;
         const [education, setEducation] = useState([
           {
             institutionName: "",
@@ -86,11 +88,11 @@ const ApllicantProfile = () => {
                     <TextField
                       // label={Institution Name #${key + 1}}
                       value={education[key].institutionName}
-                      // onChange={(event) => {
-                      //   const newEdu = [...education];
-                      //   newEdu[key].institutionName = event.target.value;
-                      //   setEducation(newEdu);
-                      // }}
+                      onChange={(event) => {
+                        const newEdu = [...education];
+                        newEdu[key].institutionName = event.target.value;
+                        setEducation(newEdu);
+                      }}
                       variant="outlined"
                     />
                   </Grid>
@@ -100,11 +102,11 @@ const ApllicantProfile = () => {
                       value={obj.startYear}
                       variant="outlined"
                       type="number"
-                      // onChange={(event) => {
-                      //   const newEdu = [...education];
-                      //   newEdu[key].startYear = event.target.value;
-                      //   setEducation(newEdu);
-                      // }}
+                      onChange={(event) => {
+                        const newEdu = [...education];
+                        newEdu[key].startYear = event.target.value;
+                        setEducation(newEdu);
+                      }}
                     />
                   </Grid>
                   <Grid item xs={3}>
@@ -113,11 +115,11 @@ const ApllicantProfile = () => {
                       value={obj.endYear}
                       variant="outlined"
                       type="number"
-                      // onChange={(event) => {
-                      //   const newEdu = [...education];
-                      //   newEdu[key].endYear = event.target.value;
-                      //   setEducation(newEdu);
-                      // }}
+                      onChange={(event) => {
+                        const newEdu = [...education];
+                        newEdu[key].endYear = event.target.value;
+                        setEducation(newEdu);
+                      }}
                     />
                   </Grid>
                 </Grid>
@@ -147,12 +149,37 @@ const ApllicantProfile = () => {
             </>
           );
         };
+        const data = useSelector((state)=>state.user.data);
+        const nav = useNavigate()
+      
+        const dis = useDispatch();
+        console.log(data);
+        const handleInput = (key, value) => {
+          setUserData({
+            ...userdata,
+            [key]: value,
+          });
+          
+        };
+        const[userdata, setUserData]=useState({
+          name:"",
+          education:"",
+          Skill: ""
+        });
+        const handleForSubmit =(e)=>{
+          e.preventDefault()
+          dis (userrequest(userdata))
+          localStorage.setItem('Name' , userdata.name)
+          // navigate("/Recruiter/Profile")
+          // toast.success("User information updated successfully")
+      
+      }
   return (
     <Container>
-    <div>
     <Box style={{marginTop:"15px"}} className="breadcrumb">
       <Breadcrumb routeSegments={[{ name: 'Applicant', path: '/applicant' }, { name: 'Profile' }]} />
     </Box>
+    <div>
         <div style={{display:"flex", justifyContent:"center"}}>
     <Stack spacing={3} style={{width:"50%", marginTop:"30px", borderTop:"20px"}}>
     <Grid item>
@@ -185,8 +212,10 @@ const ApllicantProfile = () => {
                       label="Name"
                       variant="outlined"
                       onBlur={handleBlur}
-                    //   value={values.name}
-                      onChange={handleChange}
+                      value={values.name}
+                      onChange={(event) =>
+                        handleInput("contactNumber", event.target.value)
+                      }
                       helperText={touched.name && errors.name}
                       error={Boolean(errors.name && touched.name)}
                       sx={{ mb: 3 }}
@@ -194,6 +223,7 @@ const ApllicantProfile = () => {
 
 
                             <MultifieldInput xs={3}
+                            fullWidth
                         // education={education}
                         // setEducation={setEducation}
                         name="education"
@@ -209,8 +239,10 @@ const ApllicantProfile = () => {
                       name="skills"
                       label="Skills"
                       onBlur={handleBlur}
-                    //   value={values.Skill}
-                      onChange={handleChange}
+                      value={values.Skill}
+                      onChange={(event) =>
+                        handleInput("skill", event.target.value)
+                      }
                       helperText={touched.skills && errors.skills}
                       error={Boolean(errors.skills && touched.skills)}
                       sx={{ mb: 3 }}
@@ -280,7 +312,7 @@ const ApllicantProfile = () => {
             variant="contained"
             color="primary"
             style={{ padding: "10px 50px", marginTop: "30px" }}
-            onClick={handleFormSubmit}
+            onClick={handleForSubmit}
           >
             Update Details
           </Button>
