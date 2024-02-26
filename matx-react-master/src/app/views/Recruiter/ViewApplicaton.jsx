@@ -10,8 +10,9 @@ export default function ViewApplicaton() {
         <Breadcrumb routeSegments={[{ name: 'Listjobs', path: '/Recruiter/Listjobs' }, { name: 'Appllication' }]} />
       </Box>
       <Grid item >
-        <Typography variant="h3" style={{display:'flex', justifyContent:'center'}}>Application</Typography>
+        <Typography variant="h4" style={{display:'flex', justifyContent:'center'}}>Application</Typography>
       </Grid>
+      
     </Container>
     </>
   )

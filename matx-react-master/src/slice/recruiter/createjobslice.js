@@ -45,7 +45,7 @@ const createjobslice = createSlice({
       state.isloading = false;
       state.error = payload;
   },
-    advancedsearchgetJobrequest : function(state, {payload}){
+   advancedsearchgetJobrequest : function(state, {payload}){
       state.isloading = true;
   },
   advancedsearchsucgetJobrequest : function(state, {payload}){
@@ -53,6 +53,17 @@ const createjobslice = createSlice({
       state.listData = payload;
   },
   advancedsearchfailgetJobrequest : function(state, {payload}){
+      state.isloading = false;
+      state.error = payload;
+  },
+   viewgetJobrequest : function(state, {payload}){
+      state.isloading = true;
+  },
+  viewsucgetJobrequest : function(state, {payload}){
+      state.isloading = false;
+      state.listData = payload;
+  },
+  viewfailgetJobrequest : function(state, {payload}){
       state.isloading = false;
       state.error = payload;
   }
@@ -71,6 +82,9 @@ export const {createJobrequest,
   advancedsearchgetJobrequest,
   advancedsearchsucgetJobrequest,
   advancedsearchfailgetJobrequest,
+  viewgetJobrequest,
+  viewsucgetJobrequest,
+  viewfailgetJobrequest,
   failgetJobrequest
 } = createjobslice.actions
 

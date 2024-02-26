@@ -1,8 +1,8 @@
 
 import { toast } from "react-toastify";
 import { takeEvery, call, put } from "redux-saga/effects";
-import createjobAPI, { advancedsearchgetJobDataSearch, deletejobData, getjobData, searchgetJobDataSearch, userData, usergetData } from "service/recruiter/recruiterjob";
-import { advancedsearchfailgetJobrequest, advancedsearchgetJobrequest, advancedsearchsucgetJobrequest, createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, searchfailgetJobrequest, searchgetJobrequest, searchsucgetJobrequest, sucgetJobrequest } from "slice/recruiter/createjobslice";
+import createjobAPI, { GetApplicants, advancedsearchgetJobDataSearch, deletejobData, getjobData, searchgetJobDataSearch, userData, usergetData } from "service/recruiter/recruiterjob";
+import { advancedsearchfailgetJobrequest, advancedsearchgetJobrequest, advancedsearchsucgetJobrequest, createJobSuc, createJobfaile, createJobrequest, failgetJobrequest, getJobrequest, searchfailgetJobrequest, searchgetJobrequest, searchsucgetJobrequest, sucgetJobrequest, viewfailgetJobrequest, viewgetJobrequest } from "slice/recruiter/createjobslice";
 import { userdeletefaile, userdeleterequest, userdeletesuccess, userfaile, usergetfaile, usergetrequest, usergetsuccess, userrequest, usersuccess } from "slice/recruiter/userSlice";
 
 
@@ -126,3 +126,24 @@ export function* watchdeleteuserdata ()
 {
   return yield takeEvery(userdeleterequest, deleteuserdata )
 }
+
+
+
+
+// view Application start =---==------->
+function* viewgetJobs (action)
+
+{
+  try{
+    let mydat = yield call(GetApplicants, action.payload)
+  yield put(usergetsuccess(mydat))
+}
+catch(error){
+     yield put(viewfailgetJobrequest(error))
+ }
+}
+export function* watchgetviwjobs ()
+{
+  return yield takeEvery(viewgetJobrequest, viewgetJobs )
+}
+// view Application end =---==------->

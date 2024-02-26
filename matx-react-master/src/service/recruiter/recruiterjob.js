@@ -20,19 +20,73 @@ export const deletejobData =(id)=>{
 }
 // DELETE job data end ======-------->
 // SEARCH job data start ======-------->
-export const searchgetJobDataSearch = (obj) => {
+export const searchgetJobDataSearch = (obj1) => {
 
-    return authFetchGet(`/api/jobs?myjobs=${obj.pageNumber}&q=${obj.searchTerm}`, 'GET');
+    return authFetchGet(`/api/jobs?myjobs=${obj1.pageNumber}&q=${obj1.searchTerm}`, 'GET');
 }
 // SEARCH job data end ======-------->
 // advanced SEARCH job data start ======-------->
 export const advancedsearchgetJobDataSearch = (obj) => {
-//  let url = `/api/jobs?myjobs=${obj.pageNumber}`
-//  if(obj.jobtype)
-//  {
-//     url = url + '&jobtype' + obj.jobtype
-//  }
-    return authFetchGet(`/api/jobs?myjobs=${obj.pageNumber}&jobType=${obj.searchOptions.jobType.fullTime}&salary=${obj.searchOptions.salary}&duration=${obj.searchOptions.duration}&asc=${obj.searchOptions.sort.salary}`, 'GET', obj);
+    let url =`/api/jobs?myjobs=${obj.pageNumber}`
+
+    if(obj.jobType.fullTime)
+    {
+        url = url + "&jobType=" + "Full Time"
+    }  
+    if(obj.jobType.partTime)
+    {
+        url = url + "&jobType=" + "Part Time"
+    }   
+    if(obj.jobType.wfh)
+    {
+        url = url + "&jobType=" + "Work From Home"
+    }    
+    if(obj.salary && obj.salary.length> 0)
+    {
+        url = url + "&salaryMin=" + obj.salary[0]
+        url = url + "&salaryMax=" + obj.salary[1]
+    }
+    if(obj.duration && obj.duration != "0")
+    {
+        url = url + "&duration=" + obj.duration
+    }
+    if(obj.sort.salary)
+    {
+        if(obj.sort.salary.desc)
+        {
+        url = url + "&desc=" + "salary"
+        }
+        else
+        {
+            url = url + "&asc=" + "salary" 
+        }
+    }
+
+    if(obj.sort.duration)
+    {
+        if(obj.sort.duration.desc)
+        {
+        url = url + "&desc=" + "duration"
+        }
+        else
+        {
+            url = url + "&asc=" + "duration" 
+        }
+    }
+
+    if(obj.sort.rating)
+    {
+        if(obj.sort.rating.desc)
+        {
+        url = url + "&desc=" + "rating"
+        }
+        else
+        {
+            url = url + "&asc=" + "rating" 
+        }
+    }
+    
+    return authFetchGet(url, 'GET');
 }
 // advanced SEARCH job data end ======-------->
 
@@ -44,3 +98,24 @@ export const putjobupdatedata =(data)=>{
     return authFetch(`/api/jobs/${data._id}`, 'Put', data)
 }
 // update job  end------------
+
+// applicant user ======------->
+
+export const applicantusergetData =(data1)=>{
+    return authFetchGet('/api/user', 'GET', data1)
+}
+export const applicantuserputData =(data1)=>{
+    return authFetch('/api/user', 'Put', data1)
+}
+
+// applicant user ======------->
+
+// View Application start ====------>
+
+export const GetApplicants =(job) =>
+{
+
+    return authFetchGet(`/api/applicants?jobId/`+ job._id,'GET');
+}
+
+// View Application end ====------>

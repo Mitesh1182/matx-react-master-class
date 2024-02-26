@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { advancedsearchfailgetJobrequest, getJobrequest, searchgetJobrequest } from 'slice/recruiter/createjobslice'
+import { advancedsearchfailgetJobrequest, advancedsearchgetJobrequest, getJobrequest, searchgetJobrequest, viewgetJobrequest } from 'slice/recruiter/createjobslice'
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -368,7 +368,7 @@ const FilterPopup = (props) => {
               variant="contained"
               color="primary"
               style={{ padding: '10px 50px' }}
-              onClick={() => handleSubmitForadvancedsearch()}
+              onClick={() => {handleClose(); getData();}}
             >
               Apply
             </Button>
@@ -423,9 +423,9 @@ const FilterPopup = (props) => {
   const updateData = useSelector((y)=>y.update.data);
   console.log(updateData);
   const [update, setUpdate]= useState({
-  maxApplicants : "",
-  maxPositions :"",
-  salary :  ""
+  maxApplicants : updateData?.maxApplicants,
+  maxPositions :updateData?.maxPositions,
+  salary :  updateData?.salary
   })
   const [idToUpdate, setIdToUpdate] = useState("");
 
@@ -469,19 +469,6 @@ const handleSubmitForsearch=(e)=>{
 }
 
 
-// search jobs end ==----------------------->
-// advanced search jobs start ==----------------------->
-const handleSubmitForadvancedsearch=()=>{
-  dis (advancedsearchfailgetJobrequest({
-    ...searchOptions,
-    pageNumber : 1
-  }))
-
-}
-
-
-// advanced search jobs end ==----------------------->
-
 
 // Filter start ------------>
 
@@ -512,8 +499,40 @@ const [searchOptions, setSearchOptions] = useState({
     },
   },
 });
+console.log(searchOptions)
 // Filter end ------------>
 
+// search jobs end ==----------------------->
+
+// advanced search jobs start ==----------------------->
+const handleSubmitForadvancedsearch=()=>{
+  dis (advancedsearchgetJobrequest({
+    ...searchOptions,
+    pageNumber : 1
+  }))
+
+}
+
+
+// advanced search jobs end ==----------------------->
+const clearAll = () => {
+  dis(getJobrequest(1));
+}
+
+// view Application start ======------->
+const nav = useNavigate("")
+const[idToview, setIdview]=useState("")
+console.log(idToview)
+useEffect(()=>{
+  
+   dis(viewgetJobrequest(idToview))
+},[idToview])
+ const Applicationhandlesubmit =(id)=>{
+  setIdview(id)
+   nav("/Recruiter/ViewApplicaton")
+ }
+
+// view Application end ======------->
   return (
     
     <Container style={{marginBottom:'30px'}} >
@@ -538,7 +557,7 @@ const [searchOptions, setSearchOptions] = useState({
                 }}
                 style={{ width: '500px' }}
                 variant="outlined"
-              />
+              /><Button variant="outlined" style={{margin : "0px 10px", padding : "14px"}} onClick={clearAll}>Clear</Button>
             </Grid>
             <Grid item style={{display:'flex', justifyContent:'center'}}> 
               <IconButton>
@@ -550,10 +569,7 @@ const [searchOptions, setSearchOptions] = useState({
         searchOptions={searchOptions}
         setSearchOptions={setSearchOptions}
         handleClose={() => setFilterOpen(false)}
-        getData={() => {
-
-          setFilterOpen(false);
-        }}
+        getData={handleSubmitForadvancedsearch}
       />
  
       { 
@@ -571,7 +587,7 @@ const [searchOptions, setSearchOptions] = useState({
           <b>Date :</b> {v.dateOfPosting}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        <b> User ID </b>: {v.userId}
+        <b> Posted Job </b>: {v.recruiter.name}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
         <b>Jobtype</b> : {v.jobType}
@@ -583,7 +599,7 @@ const [searchOptions, setSearchOptions] = useState({
       </CardContent>
       
       <CardActions style={{display:"grid"}} >
-         <Link to="/Recruiter/ViewApplicaton"><Button style={{backgroundColor:"#222944", color:"white", padding:"44px 39px"}} size="small">View Application</Button></Link>
+        <Button onClick={()=>{Applicationhandlesubmit(v._id)}} style={{backgroundColor:"#222944", color:"white", padding:"44px 39px"}} size="small">View Application</Button>
         <Button onClick={()=>{ handleClickOpenUpdate(v._id) }} style={{backgroundColor:"rgb(25 118 210)", color:"white", margin:"0px 0px"}} size="small">Update</Button>
           <Button onClick={()=>{ handleClickOpenDelete(v._id) }} style={{backgroundColor:"#4791db",  color:"white", margin:"0px 0px"}} size="small">Delete</Button>
       </CardActions>

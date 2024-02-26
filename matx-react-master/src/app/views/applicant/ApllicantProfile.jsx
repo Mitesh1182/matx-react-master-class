@@ -20,6 +20,8 @@ import React from 'react'
 import { Breadcrumb } from 'app/components';
 import { useDispatch, useSelector } from 'react-redux';
 import { userrequest } from 'slice/recruiter/userSlice';
+import { applicantgetuserrequest, putapplicantuserrequest } from 'slice/recruiter/applicant/ProfileupdateSlice';
+import { useEffect } from 'react';
 
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
@@ -32,13 +34,11 @@ const VisuallyHiddenInput = styled('input')({
     whiteSpace: 'nowrap',
     width: 1,
   });
-  const initialValues = {
-    email: '',
-    password: '',
-    name: '',
-    skills:'',
-    type: "applicant"
-  };
+  // const initialValues = {
+  //   name: '',
+  //   skills:'',
+  //   type: "applicant"
+  // };
   const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 const ApllicantProfile = () => {
 
@@ -149,11 +149,12 @@ const ApllicantProfile = () => {
             </>
           );
         };
-        const data = useSelector((state)=>state.user.data);
+        const data = useSelector((state)=>state.applicantuser.data);
+        console.log(data);
         const nav = useNavigate()
       
         const dis = useDispatch();
-        console.log(data);
+
         const handleInput = (key, value) => {
           setUserData({
             ...userdata,
@@ -166,9 +167,18 @@ const ApllicantProfile = () => {
           education:"",
           Skill: ""
         });
+        useEffect(()=> {
+
+          dis(applicantgetuserrequest(userdata))
+        },[userdata])
+      
+        useEffect(()=> {
+      
+          setUserData(data)
+        },[data])
         const handleForSubmit =(e)=>{
           e.preventDefault()
-          dis (userrequest(userdata))
+          dis (putapplicantuserrequest(userdata))
           localStorage.setItem('Name' , userdata.name)
           // navigate("/Recruiter/Profile")
           // toast.success("User information updated successfully")
@@ -200,9 +210,8 @@ const ApllicantProfile = () => {
           <Grid container direction="column" alignItems="stretch" spacing={3} style={{width:"85%", marginTop:"10px"}}>
           <Formik
                 onSubmit={handleFormSubmit}
-                initialValues={initialValues}
               >
-          {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
+          {({ errors, touched, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit} >
                     <TextField
                       fullWidth
@@ -212,9 +221,9 @@ const ApllicantProfile = () => {
                       label="Name"
                       variant="outlined"
                       onBlur={handleBlur}
-                      value={values.name}
+                      value={userdata?.name}
                       onChange={(event) =>
-                        handleInput("contactNumber", event.target.value)
+                        handleInput("name", event.target.value)
                       }
                       helperText={touched.name && errors.name}
                       error={Boolean(errors.name && touched.name)}
@@ -239,7 +248,7 @@ const ApllicantProfile = () => {
                       name="skills"
                       label="Skills"
                       onBlur={handleBlur}
-                      value={values.Skill}
+                      value={userdata?.Skill}
                       onChange={(event) =>
                         handleInput("skill", event.target.value)
                       }

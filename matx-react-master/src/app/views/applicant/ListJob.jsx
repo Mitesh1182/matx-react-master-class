@@ -497,7 +497,7 @@ const handleSubmitForsearch=(e)=>{
           <b>Date :</b> {v.dateOfPosting}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-        <b> User ID </b>: {v.userId}
+        <b> Posted Job </b>: {v.recruiter.name}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
         <b>Jobtype</b> : {v.jobType}

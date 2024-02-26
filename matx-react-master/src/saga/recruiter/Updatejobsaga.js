@@ -23,8 +23,8 @@ function* putjobupdate (action)
 
 {
   try{
-    let mydat = yield call(putjobupdatedata, action.payload)
-  yield  put(putjobsuccess(mydat))
+    let mydat1 = yield call(putjobupdatedata, action.payload)
+  yield  put(putjobsuccess(mydat1))
 }
 catch(error){
      yield  put(putjobfaile(error))
