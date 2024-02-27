@@ -17,7 +17,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import makeStyles from '@emotion/styled'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, createSearchParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 import { putjobrequest, updatejobrequest } from 'slice/recruiter/updatejob'
 import { toast } from 'react-toastify'
@@ -521,15 +521,15 @@ const clearAll = () => {
 
 // view Application start ======------->
 const nav = useNavigate("")
-const[idToview, setIdview]=useState("")
-console.log(idToview)
-useEffect(()=>{
+// const[idToview, setIdview]=useState("")
+// console.log(idToview)
+// useEffect(()=>{
   
-   dis(viewgetJobrequest(idToview))
-},[idToview])
- const Applicationhandlesubmit =(id)=>{
-  setIdview(id)
-   nav("/Recruiter/ViewApplicaton")
+// },[idToview])
+const Applicationhandlesubmit =(id)=>{
+
+  // dis(viewgetJobrequest(id))
+   nav({pathname :"/Recruiter/ViewApplicaton", search : createSearchParams({id: id}).toString()})
  }
 
 // view Application end ======------->

@@ -112,10 +112,10 @@ export const applicantuserputData =(data1)=>{
 
 // View Application start ====------>
 
-export const GetApplicants =(job) =>
+export const GetApplicants =(pageId) =>
 {
 
-    return authFetchGet(`/api/applicants?jobId/`+ job._id,'GET');
+    return authFetchGet(`/api/applicants?jobId=` +pageId._id ,'GET');
 }
 
 // View Application end ====------>

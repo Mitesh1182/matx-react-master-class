@@ -529,7 +529,7 @@ const handleSubmitForsearch=(e)=>{
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent   style={{width:"450px", height:"200px"}}>
+        <DialogContent   style={{width:"550px", height:"250px",padding:"30px"}}>
         <Box
       sx={{
         width: 500,
@@ -538,11 +538,18 @@ const handleSubmitForsearch=(e)=>{
         maxHeight:"50%",
       }}
     >
-      <TextField  rows={4} fullWidth label="Write SOP (upto 250 words)" id="fullWidth" />
+      <TextField
+          id="outlined-multiline-static"
+          label="Write SOP (upto 250 words)"
+          fullWidth
+
+          multiline
+          rows={9}
+        />
     </Box>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleModalSubmit}>SUBMIT</Button>
+        <DialogActions style={{justifyContent:"center", padding:"17px 0px 17px 0px"}}>
+          <Button style={{backgroundColor:"#1976d2",color:"white",padding:"8px 18px"}} onClick={handleModalSubmit}>SUBMIT</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
