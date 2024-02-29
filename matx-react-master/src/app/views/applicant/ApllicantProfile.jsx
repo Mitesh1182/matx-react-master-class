@@ -149,7 +149,7 @@ const ApllicantProfile = () => {
             </>
           );
         };
-        const data = useSelector((state)=>state.applicantuser.data);
+        const data = useSelector((state)=>state.user.data);
         console.log(data);
         const nav = useNavigate()
       

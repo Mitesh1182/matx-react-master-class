@@ -1,4 +1,4 @@
-import { Box, Button, Card, Checkbox, Container, FormControlLabel, Grid, Icon, IconButton,  InputAdornment, MenuItem, Modal, Paper, Slider } from '@mui/material'
+import { Box, Button, Card, Checkbox, Container, FormControlLabel, Grid, Icon, IconButton,  InputAdornment, MenuItem, Modal, Paper, Rating, Slider } from '@mui/material'
 import { Breadcrumb } from 'app/components'
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search';
@@ -62,14 +62,14 @@ const FilterPopup = (props) => {
   const classes = useStyles();
   const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
   return (
-    <Modal style={{display:'flex', justifyContent:'center'}} open={open} onClose={handleClose} className={classes.popupDialog}>
+    <Modal style={{display:'flex', justifyContent:'center',marginTop:'200px'}} open={open} onClose={handleClose} className={classes.popupDialog}>
       <Paper
         style={{
           padding: '50px',
           outline: 'none',
           minWidth: '60%',
-          height:'67%',
-          marginTop:'58px'
+          height:'60%',
+
         }}
       >
         <Grid container direction="column" alignItems="center" spacing={3}>
@@ -453,10 +453,11 @@ const handleInput = (key, value) => {
 };
 const handleSubmitForUpdate =(e)=>{
   e.preventDefault()
-  dis (putjobrequest(update))
-  // navigate("/Recruiter/Listjobs")
+  dis (putjobrequest({...update,_id:idToUpdate} ))
+  navigate("/Recruiter/Listjobs")
   toast.success("User information updated successfully")
   handleClose()
+
 }
 // update jobs end ==----------------------->
 // search jobs start ==----------------------->
@@ -482,7 +483,7 @@ const [searchOptions, setSearchOptions] = useState({
     partTime: false,
     wfh: false,
   },
-  salary: [0, 100],
+  salary: [0, 0],
   duration: "0",
   sort: {
     salary: {
@@ -582,9 +583,15 @@ const Applicationhandlesubmit =(id)=>{
       <CardContent >
         <Typography variant="h5" style={{color:"#222944",alignItems:"center"}} component="div" >
         <Icon fontSize="large" style={{color:"rgb(25 118 210)"}}>{"business_center"}</Icon> {v.title}
-        </Typography><br/>
+        </Typography>
+        <Grid item style={{marginTop:'10px'}}>
+            <Rating value={listData.rating !== -1 ? listData.rating : null} readOnly />
+          </Grid>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           <b>Date :</b> {v.dateOfPosting}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <b>maxApplicants :</b> {v.maxApplicants}
         </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         <b> Posted Job </b>: {v.recruiter.name}
@@ -599,9 +606,9 @@ const Applicationhandlesubmit =(id)=>{
       </CardContent>
       
       <CardActions style={{display:"grid"}} >
-        <Button onClick={()=>{Applicationhandlesubmit(v._id)}} style={{backgroundColor:"#222944", color:"white", padding:"44px 39px"}} size="small">View Application</Button>
-        <Button onClick={()=>{ handleClickOpenUpdate(v._id) }} style={{backgroundColor:"rgb(25 118 210)", color:"white", margin:"0px 0px"}} size="small">Update</Button>
-          <Button onClick={()=>{ handleClickOpenDelete(v._id) }} style={{backgroundColor:"#4791db",  color:"white", margin:"0px 0px"}} size="small">Delete</Button>
+        <Button onClick={()=>{Applicationhandlesubmit(v._id)}} style={{backgroundColor:"#222944", color:"white", padding:"60px 39px"}} size="small">View Application</Button>
+        <Button onClick={()=>{ handleClickOpenUpdate(v._id) }} style={{backgroundColor:"rgb(25 118 210)", color:"white", margin:"0px 0px",padding:"8px 0px"}} size="small">Update</Button>
+          <Button onClick={()=>{ handleClickOpenDelete(v._id) }} style={{backgroundColor:"#4791db",  color:"white", margin:"0px 0px",padding:"8px 0px"}} size="small">Delete</Button>
       </CardActions>
       </div>
                </Card>

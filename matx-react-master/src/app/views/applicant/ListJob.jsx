@@ -1,11 +1,11 @@
-import { Box, Button, Card, Checkbox, Container, FormControlLabel, Grid, Icon, IconButton,  InputAdornment, MenuItem, Modal, Paper, Slider } from '@mui/material'
+import { Box, Button, Card, Checkbox, Container, FormControlLabel, Grid, Icon, IconButton,  InputAdornment, MenuItem, Modal, Paper, Rating, Slider } from '@mui/material'
 import { Breadcrumb } from 'app/components'
 import React from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getJobrequest, searchgetJobrequest } from 'slice/recruiter/createjobslice'
+import { advancedsearchgetJobrequest, getJobrequest, searchgetJobrequest } from 'slice/recruiter/createjobslice'
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -62,14 +62,13 @@ const FilterPopup = (props) => {
     const classes = useStyles();
     const { open, handleClose, searchOptions, setSearchOptions, getData } = props;
     return (
-      <Modal style={{display:'flex', justifyContent:'center'}} open={open} onClose={handleClose} className={classes.popupDialog}>
+      <Modal style={{display:'flex', justifyContent:'center',marginTop:'200px'}} open={open} onClose={handleClose} className={classes.popupDialog}>
         <Paper
           style={{
             padding: '50px',
             outline: 'none',
             minWidth: '60%',
-            height:'67%',
-            marginTop:'58px'
+            height:'60%',
           }}
         >
           <Grid container direction="column" alignItems="center" spacing={3}>
@@ -368,7 +367,7 @@ const FilterPopup = (props) => {
                 variant="contained"
                 color="primary"
                 style={{ padding: '10px 50px' }}
-                onClick={() => getData()}
+                onClick={() => {handleClose(); getData();}}
               >
                 Apply
               </Button>
@@ -437,8 +436,22 @@ const handleSubmitForsearch=(e)=>{
 
 }
 
-
 // search jobs end ==----------------------->
+
+// advanced search jobs start ==----------------------->
+const handleSubmitForadvancedsearch=()=>{
+  dis (advancedsearchgetJobrequest({
+    ...searchOptions,
+    pageNumber : 1
+  }))
+
+}
+
+
+// advanced search jobs end ==----------------------->
+const clearAll = () => {
+  dis(getJobrequest(1));
+}
 
   return (
     
@@ -464,7 +477,7 @@ const handleSubmitForsearch=(e)=>{
                 }}
                 style={{ width: '500px' }}
                 variant="outlined"
-              />
+              /><Button variant="outlined" style={{margin : "0px 10px", padding : "14px"}} onClick={clearAll}>Clear</Button>
             </Grid>
             <Grid item style={{display:'flex', justifyContent:'center'}}> 
               <IconButton>
@@ -475,10 +488,7 @@ const handleSubmitForsearch=(e)=>{
         searchOptions={searchOptions}
         setSearchOptions={setSearchOptions}
         handleClose={() => setFilterOpen(false)}
-        getData={() => {
-            
-            setFilterOpen(false);
-        }}
+        getData={handleSubmitForadvancedsearch}
         />
         </Grid>
  
@@ -492,7 +502,10 @@ const handleSubmitForsearch=(e)=>{
       <CardContent >
         <Typography variant="h5" style={{color:"#222944",alignItems:"center"}} component="div" >
         <Icon fontSize="large" style={{color:"rgb(25 118 210)"}}>{"business_center"}</Icon> {v.title}
-        </Typography><br/>
+        </Typography>
+        <Grid item style={{marginTop:'10px'}}>
+            <Rating value={listData.rating !== -1 ? listData.rating : null} readOnly />
+          </Grid>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           <b>Date :</b> {v.dateOfPosting}
         </Typography>

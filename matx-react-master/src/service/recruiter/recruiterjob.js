@@ -43,8 +43,11 @@ export const advancedsearchgetJobDataSearch = (obj) => {
     }    
     if(obj.salary && obj.salary.length> 0)
     {
-        url = url + "&salaryMin=" + obj.salary[0]
-        url = url + "&salaryMax=" + obj.salary[1]
+        if(obj.salary[1]>0){
+
+            url = url + "&salaryMin=" + obj.salary[0]
+            url = url + "&salaryMax=" + obj.salary[1]
+        }
     }
     if(obj.duration && obj.duration != "0")
     {
@@ -112,10 +115,10 @@ export const applicantuserputData =(data1)=>{
 
 // View Application start ====------>
 
-export const GetApplicants =(pageId) =>
+export const GetApplicants =(id) =>
 {
 
-    return authFetchGet(`/api/applicants?jobId=` +pageId._id ,'GET');
+    return authFetchGet(`/api/applicants?jobId=${id}&desc=dateOfApplication`)
 }
 
 // View Application end ====------>
