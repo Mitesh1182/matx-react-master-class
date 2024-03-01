@@ -4,6 +4,7 @@ const initialState = {
     isloading : false,
     data : null,
     error: null,
+    listData: []
 }
 
 const ViewApplivastionSlice = createSlice({

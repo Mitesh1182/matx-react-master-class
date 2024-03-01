@@ -1,6 +1,7 @@
 import { applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess } from "slice/recruiter/applicant/ProfileupdateSlice"
 import { call, put, takeEvery } from "redux-saga/effects"
-import { applicantuserputData, getjobupdatedata } from "service/recruiter/recruiterjob"
+import { GetApplicants, applicantuserputData, getjobupdatedata } from "service/recruiter/recruiterjob"
+import { viewfailgetJobrequest, viewgetJobrequest, viewsucgetJobrequest } from "slice/recruiter/ViewApplivastionSlice"
 
 
 
@@ -34,3 +35,23 @@ export function* watchputapplicantuser ()
 {
   return yield takeEvery(putapplicantuserrequest, putapplicantuser)
 }
+
+
+// view Application start =---==------->
+function* viewgetJobs (action)
+
+{
+  try{
+    let mydat = yield call(GetApplicants, action.payload)
+  yield put(viewsucgetJobrequest(mydat))
+}
+catch(error){
+     yield put(viewfailgetJobrequest(error))
+ }
+}
+export function* watchgetviwjobs ()
+{
+  return yield takeEvery(viewgetJobrequest, viewgetJobs )
+}
+
+// view Application end =---==------->

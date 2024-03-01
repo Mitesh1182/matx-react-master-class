@@ -118,7 +118,26 @@ export const applicantuserputData =(data1)=>{
 export const GetApplicants =(id) =>
 {
 
-    return authFetchGet(`/api/applicants?jobId=${id}&desc=dateOfApplication`)
+    return authFetchGet(`/api/applicants?jobId=${id}&desc=dateOfApplication`,'GET')
 }
 
+// export const ApplicationPopup = (obj) => {
+//     let url =`/api/applicants?jobId=${obj.pageNumber}`
+
+//     if(obj.jobType.fullTime)
+//     {
+//         url = url + "&jobType=" + "Full Time"
+//     }  
+//     if(obj.jobType.partTime)
+//     {
+//         url = url + "&jobType=" + "Part Time"
+//     }   
+//     if(obj.jobType.wfh)
+//     {
+//         url = url + "&jobType=" + "Work From Home"
+//     }
+
+    
+//     return authFetchGet(url, 'GET');
+// }
 // View Application end ====------>
