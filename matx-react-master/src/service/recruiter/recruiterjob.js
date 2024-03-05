@@ -121,23 +121,58 @@ export const GetApplicants =(id) =>
     return authFetchGet(`/api/applicants?jobId=${id}&desc=dateOfApplication`,'GET')
 }
 
-// export const ApplicationPopup = (obj) => {
-//     let url =`/api/applicants?jobId=${obj.pageNumber}`
+export const advanceviewjobpoup = (obj) => {
+    // jobId=65e6c379845c371eb40ed79f&status=rejected&status=applied&status=shortlisted&asc=jobApplicant.name&asc=jobApplicant.rating&desc=dateOfApplication
+    let url =`/api/applicants?jobId=${obj.id}`
 
-//     if(obj.jobType.fullTime)
-//     {
-//         url = url + "&jobType=" + "Full Time"
-//     }  
-//     if(obj.jobType.partTime)
-//     {
-//         url = url + "&jobType=" + "Part Time"
-//     }   
-//     if(obj.jobType.wfh)
-//     {
-//         url = url + "&jobType=" + "Work From Home"
-//     }
+    if(obj.status.all)
+    {
+        url = url + "&status=" + "rejected"
+    }  
+    if(obj.status.applied)
+    {
+        url = url + "&status=" + "Accepted"
+    }  
+    if(obj.status.shortlisted)
+    {
+        url = url + "&status=" + "shortlisted"
+    }  
+    if(obj.sort["jobApplicant.name"])
+    {
+        if(obj.sort["jobApplicant.name"].desc)
+        {
+        url = url + "&desc=" + "jobApplicant.name"
+        }
+        else
+        {
+            url = url + "&asc=" + "jobApplicant.name" 
+        }
+    }
+    if(obj.sort["jobApplicant.rating"])
+    {
+        if(obj.sort["jobApplicant.rating"].desc)
+        {
+        url = url + "&desc=" + "jobApplicant.rating"
+        }
+        else
+        {
+            url = url + "&asc=" + "jobApplicant.rating" 
+        }
+    }
+    if(obj.sort.dateOfApplication)
+    {
+        if(obj.sort.dateOfApplication.desc)
+        {
+        url = url + "&desc=" + "dateOfApplication"
+        }
+        else
+        {
+            url = url + "&asc=" + "dateOfApplication" 
+        }
+    }
+    
 
     
-//     return authFetchGet(url, 'GET');
-// }
+    return authFetchGet(url, 'GET');
+}
 // View Application end ====------>

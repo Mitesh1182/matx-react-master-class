@@ -528,9 +528,7 @@ const nav = useNavigate("")
   
 // },[idToview])
 const Applicationhandlesubmit =(id)=>{
-
-  // dis(viewgetJobrequest(id))
-   nav({pathname :"/Recruiter/ViewApplicaton", search : createSearchParams({id: id}).toString()})
+   nav(`/Recruiter/ViewApplicaton/`+ id)
  }
 
 // view Application end ======------->

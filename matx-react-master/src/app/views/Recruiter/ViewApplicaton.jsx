@@ -18,11 +18,11 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Breadcrumb } from 'app/components'
-import { useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import makeStyles from '@emotion/styled'
 import { useEffect } from 'react'
-import { viewgetJobrequest } from 'slice/recruiter/ViewApplivastionSlice'
+import { advancesearchviewgetJobrequest, viewgetJobrequest } from 'slice/recruiter/ViewApplivastionSlice'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const colorSet = {
@@ -39,12 +39,16 @@ const buttonSet = {
   
   applied: (
     <>
+    <div style={{display:"flex"}}>
+
+    
       <Grid item xs>
         <Button
           // className={classes.statusBlock}
           style={{
             background: colorSet["shortlisted"],
             color: "#ffffff",
+            padding:'  33px 63px'
           }}
           // onClick={() => updateStatus("shortlisted")}
         >
@@ -57,22 +61,28 @@ const buttonSet = {
           style={{
             background: colorSet["rejected"],
             color: "#ffffff",
+            padding: '33px 71px'
           }}
           // onClick={() => updateStatus("rejected")}
         >
           Reject
         </Button>
       </Grid>
+      </div>
     </>
   ),
   shortlisted: (
     <>
-      <Grid item xs>
+    <div style={{display:"flex"}}>
+      <Grid item xs >
         <Button
           // className={classes.statusBlock}
           style={{
             background: colorSet["accepted"],
             color: "#ffffff",
+            display:'flex',
+            padding: '33px 68px' ,
+
           }}
           // onClick={() => updateStatus("accepted")}
         >
@@ -85,12 +95,14 @@ const buttonSet = {
           style={{
             background: colorSet["rejected"],
             color: "#ffffff",
+            padding: '33px 71px',
           }}
           // onClick={() => updateStatus("rejected")}
         >
           Reject
         </Button>
       </Grid>
+      </div>
     </>
   ),
   rejected: (
@@ -101,6 +113,9 @@ const buttonSet = {
           style={{
             background: colorSet["rejected"],
             color: "#ffffff",
+            display: 'flex',
+            justifyContent:'center',
+            padding: '34px 20px',
           }}
         >
           Rejected
@@ -427,8 +442,7 @@ const FilterPopup = (props) => {
               variant="contained"
               color="primary"
               style={{ padding: "10px 50px" }}
-              onClick={() => getData()}
-            >
+              onClick={() => {getData(); handleClose()}}>
               Apply
             </Button>
           </Grid>
@@ -490,16 +504,22 @@ export default function ViewApplicaton() {
       },
     },
   });
-  const[val]=useSearchParams()
-  console.log(val)
+  const{id}=useParams()
+  console.log(id)
 
   const[idToview, setIdToview]= useState("");
   const {listData} = useSelector((state)=>state.Viewapplication);
   console.log(listData);
- 
+ const handleSubmitForadvancedsearch=()=>{
+  dis (advancesearchviewgetJobrequest({
+    ...searchOptions,
+    id : id,
+  }))
+
+}
  const dis=useDispatch();
   useEffect(()=>{
-    dis(viewgetJobrequest(idToview))
+    dis(viewgetJobrequest(id))
   },[idToview])
   return (
     <>
@@ -519,94 +539,95 @@ export default function ViewApplicaton() {
         searchOptions={searchOptions}
         setSearchOptions={setSearchOptions}
         handleClose={() => setFilterOpen(false)}
-        getData={() => {
-          setFilterOpen(false);
-        }}
+        getData={handleSubmitForadvancedsearch}
       />
+      
           </Grid>
  
 
-          { 
-        <div style={{gap:"15px"}}>
-          {
-            listData?.map((v) => {
-              return (
-                <Card sx={{ minWidth: 275 }} style={{marginTop:"20px", alignItems:"center"}} >
-       <div style={{display:"flex", justifyContent:"space-between"}}>
-      <CardContent >
-        <div style={
-          {display:"flex",gap:'10px'}
-        }>
+          
+      {listData.length > 0 ? (
+  listData?.map((v) => {
+    return (
+      <Card sx={{ minWidth: 275 }} style={{marginTop:"20px", alignItems:"center"}} >
+<div style={{display:"flex", justifyContent:"space-between"}}>
+<CardContent >
+<div style={
+{display:"flex",gap:'10px'}
+}>
 
-        <div >
-        <Typography >
-        <IconButton style={{width:'125px',height:'125px'}}>
-          <AccountCircleIcon style={{fontSize:'125px',color:'#bbbbbb'}}/>
-        </IconButton>
-        </Typography>
-        </div>
-        <div>
+<div >
+<Typography >
+<IconButton style={{width:'125px',height:'125px'}}>
+<AccountCircleIcon style={{fontSize:'125px',color:'#bbbbbb'}}/>
+</IconButton>
+</Typography>
+</div>
+<div>
 
-        <Typography variant="h5" style={{color:"#222944",alignItems:"center"}} component="div" >
-         {v.jobApplicant.name}
-        </Typography>
-        <Grid item style={{marginTop:'10px'}}>
-            <Rating value={v.jobApplicant.rating !== -1 ? v.jobApplicant.rating : null} readOnly />
-          </Grid>
-          <Typography variant="p" style={{color:"#222944",alignItems:"center"}} component="div" >
-          Applied On: {v.dateOfApplication}
-        </Typography>
-          <Typography variant="p" style={{color:"#222944",alignItems:"center"}} component="div" >
-          Education: {v.jobApplicant.education.map((edu) => {
-                return `${edu.institutionName}(${edu.startYear}-${edu.endYear})`;
-              })}
-        </Typography>
-          <Typography variant="p" style={{color:"#222944",alignItems:"center"}} component="div" >
-          SOP: {v.sop}
-        </Typography>
-        </div>
-        </div>
-      </CardContent>
-      <CardContent>
-      <Grid item direction="column" xs={3}>
-          <Grid item>
-            <Button
-            style={{width:'365px'}}
-              variant="contained"
-              // className={classes.statusBlock}
-              color="primary"
-              // onClick={() => getResume()}
-            >
-              Download Resume
-            </Button>
-          </Grid>
-          <Grid item>
-            {buttonSet[v.status]}
-          </Grid>
-        </Grid>
-        {/* <div style={{display:'inline-grid', justifyContent:'center'}}>
-          <div style={{display:'flex',justifyContent:'center'}}>
-            <Button style={{backgroundColor:'#1976d2',padding:'5px 93px', color:'white'}}>DOWNLOAD RESUME</Button>
-          </div>
-          <div style={{display:'flex'}}>
-            <div>
-             <Button style={{padding:'34px 50px',backgroundColor:'rgb(220 133 31)',color:'white'}}> SHORTLIST</Button>
-            </div>
-            <div>
-             <Button style={{padding:'34px 50px',backgroundColor:'#d1345b',color:'white'}}> REJECT</Button>
-            </div>
-          </div>
-        </div> */}
-      </CardContent>
-      </div>
-               </Card>
-                
-              )
+<Typography variant="h5" style={{color:"#222944",alignItems:"center"}} component="div" >
+{v.jobApplicant.name}
+</Typography>
+<Grid item style={{marginTop:'10px'}}>
+  <Rating value={v.jobApplicant.rating !== -1 ? v.jobApplicant.rating : null} readOnly />
+</Grid>
+<Typography variant="p" style={{color:"#222944",alignItems:"center"}} component="div" >
+Applied On: {(new Date(v.dateOfApplication)).toLocaleDateString()}
+</Typography>
+<Typography variant="p" style={{color:"#222944",alignItems:"center"}} component="div" >
+Education: {v.jobApplicant.education.map((edu) => {
+      return `${edu.institutionName}(${edu.startYear}-${edu.endYear})`;
+    })}
+</Typography>
+<Typography variant="p" style={{color:"#222944",alignItems:"center"}} component="div" >
+SOP: {v.sop}
+</Typography>
+</div>
+</div>
+</CardContent>
+<CardContent>
+<Grid item direction="column" xs={3}>
+<Grid item>
+  <Button
+  style={{width:'365px'}}
+    variant="contained"
+    // className={classes.statusBlock}
+    color="primary"
+    // onClick={() => getResume()}
+  >
+    Download Resume
+  </Button>
+</Grid>
+<Grid item>
+  {buttonSet[v.status]}
+</Grid>
+</Grid>
+{/* <div style={{display:'inline-grid', justifyContent:'center'}}>
+<div style={{display:'flex',justifyContent:'center'}}>
+  <Button style={{backgroundColor:'#1976d2',padding:'5px 93px', color:'white'}}>DOWNLOAD RESUME</Button>
+</div>
+<div style={{display:'flex'}}>
+  <div>
+   <Button style={{padding:'34px 50px',backgroundColor:'rgb(220 133 31)',color:'white'}}> SHORTLIST</Button>
+  </div>
+  <div>
+   <Button style={{padding:'34px 50px',backgroundColor:'#d1345b',color:'white'}}> REJECT</Button>
+  </div>
+</div>
+</div> */}
+</CardContent>
+</div>
+     </Card>
+      
+    )
 
-            })
-          }
-        </div>
-      }
+  })
+) : (
+  <Typography variant="h5" style={{ textAlign: "center" }}>
+    No Applications Found
+  </Typography>
+)}
+        
       
     </Container>
     </>

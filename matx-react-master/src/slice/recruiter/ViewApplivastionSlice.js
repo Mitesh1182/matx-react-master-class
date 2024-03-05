@@ -21,10 +21,21 @@ const ViewApplivastionSlice = createSlice({
     viewfailgetJobrequest : function(state, {payload}){
         state.isloading = false;
         state.error = payload;
+    },
+    advancesearchviewgetJobrequest : function(state, {payload}){
+        state.isloading = true;
+    },
+    advancesearchviewsucgetJobrequest : function(state, {payload}){
+        state.isloading = false;
+        state.listData = payload;
+    },
+    advancesearchviewfailgetJobrequest : function(state, {payload}){
+        state.isloading = false;
+        state.error = payload;
     }
   }
 });
 
-export const {viewgetJobrequest,viewsucgetJobrequest,viewfailgetJobrequest} = ViewApplivastionSlice.actions
+export const {viewgetJobrequest,viewsucgetJobrequest,viewfailgetJobrequest,advancesearchviewgetJobrequest,advancesearchviewsucgetJobrequest,advancesearchviewfailgetJobrequest} = ViewApplivastionSlice.actions
 
 export default ViewApplivastionSlice.reducer

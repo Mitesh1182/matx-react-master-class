@@ -7,7 +7,7 @@ const RecruiterRoutes = [
   { path: '/Recruiter/CreateJob', element: <CreateJob/> },
   { path: '/Recruiter/Profile', element: <Profile/> },
   { path: '/Recruiter/Listjobs', element: <ListJobs/> },
-  { path: '/Recruiter/ViewApplicaton', element: <ViewApplicaton/> }
+  { path: '/Recruiter/ViewApplicaton/:id', element: <ViewApplicaton/> }
 ];
 
 export default RecruiterRoutes;
