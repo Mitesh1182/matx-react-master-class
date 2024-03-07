@@ -1,6 +1,6 @@
-import { applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess } from "slice/recruiter/applicant/ProfileupdateSlice"
+import { Faileadvancesearchuserrequest, Sucadvancesearchuserrequest, advancesearchuserrequest, applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, employeeFailgetuserrequest, employeeSucgetuserrequest, employeegetuserrequest, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess } from "slice/recruiter/applicant/ProfileupdateSlice"
 import { call, put, takeEvery } from "redux-saga/effects"
-import { GetApplicants, advanceviewjobpoup, applicantuserputData, getjobupdatedata } from "service/recruiter/recruiterjob"
+import { GetApplicants, advancedsearchemployeegetuser, advanceviewjobpoup, applicantuserputData, employeegetuser, getjobupdatedata } from "service/recruiter/recruiterjob"
 import { advancesearchviewfailgetJobrequest, advancesearchviewgetJobrequest, advancesearchviewsucgetJobrequest, viewfailgetJobrequest, viewgetJobrequest, viewsucgetJobrequest } from "slice/recruiter/ViewApplivastionSlice"
 
 
@@ -71,7 +71,50 @@ export function* advancedwatchgetviwjobs ()
 {
   return yield takeEvery(advancesearchviewgetJobrequest, advancesearchviewgetJobs )
 }
- 
+
 
 // advanced job seach  end 
 // view Application end =---==------->
+
+// employees get user start
+
+function* employeesGetuser (action)
+
+{
+  try{
+    let mydat = yield call(employeegetuser, action.payload)
+  yield put(employeeSucgetuserrequest(mydat))
+}
+catch(error){
+     yield put(employeeFailgetuserrequest(error))
+ }
+}
+export function* whatchemployeesgetuser ()
+{
+  return yield takeEvery(employeegetuserrequest, employeesGetuser )
+}
+
+
+// employees get user end
+
+
+// employees get user start
+
+function* advancedSearchemployeesGetuser (action)
+
+{
+  try{
+    let mydat = yield call(advancedsearchemployeegetuser, action.payload)
+  yield put(Sucadvancesearchuserrequest(mydat))
+}
+catch(error){
+     yield put(Faileadvancesearchuserrequest(error))
+ }
+}
+export function* whatchadvancedSrarchgetuser ()
+{
+  return yield takeEvery(advancesearchuserrequest, advancedSearchemployeesGetuser )
+}
+
+
+// employees get user end

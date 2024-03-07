@@ -124,12 +124,12 @@ export const GetApplicants =(id) =>
 export const advanceviewjobpoup = (obj) => {
     // jobId=65e6c379845c371eb40ed79f&status=rejected&status=applied&status=shortlisted&asc=jobApplicant.name&asc=jobApplicant.rating&desc=dateOfApplication
     let url =`/api/applicants?jobId=${obj.id}`
-
-    if(obj.status.all)
+    
+    if(obj.status.rejected)
     {
         url = url + "&status=" + "rejected"
     }  
-    if(obj.status.applied)
+    if(obj.status.Accepted)
     {
         url = url + "&status=" + "Accepted"
     }  
@@ -152,7 +152,7 @@ export const advanceviewjobpoup = (obj) => {
     {
         if(obj.sort["jobApplicant.rating"].desc)
         {
-        url = url + "&desc=" + "jobApplicant.rating"
+            url = url + "&desc=" + "jobApplicant.rating"
         }
         else
         {
@@ -176,3 +176,67 @@ export const advanceviewjobpoup = (obj) => {
     return authFetchGet(url, 'GET');
 }
 // View Application end ====------>
+
+// emploees start 
+
+   
+export const employeegetuser = (obj) => {
+    
+    return authFetchGet(`/api/applicants?status=accepted&desc=${obj.deadline}`,'GET', obj)
+}
+
+export const advancedsearchemployeegetuser = (obj) => {
+    // http://localhost:4444/api/applicants?status=accepted&asc=jobApplicant.name&asc=job.title&asc=jobApplicant.rating&desc=dateOfJoining
+     let url = `/api/applicants?status=accepted`
+
+     
+     if(obj.sort["jobApplicant.name"])
+    {
+        if(obj.sort["jobApplicant.name"].desc)
+        {
+        url = url + "&asc=" + "jobApplicant.name"
+        }
+        else
+        {
+            url = url + "&asc=" + "jobApplicant.name" 
+        }
+    }
+
+    if(obj.sort["job.title"])
+    {
+        if(obj.sort["job.title"].desc)
+        {
+        url = url + "&desc=" + "job.title"
+        }
+        else
+        {
+            url = url + "&asc=" + "job.title" 
+        }
+    }
+
+    if(obj.sort.dateOfJoining)
+    {
+        if(obj.sort.dateOfJoining.desc)
+        {
+        url = url + "&desc=" + "dateOfJoining"
+        }
+        else
+        {
+            url = url + "&asc=" + "dateOfJoining" 
+        }
+    }
+        if(obj.sort["jobApplicant.rating"])
+        {
+            if(obj.sort["jobApplicant.rating"].desc)
+            {
+                url = url + "&desc=" + "jobApplicant.rating"
+            }
+            else
+            {
+                url = url + "&asc=" + "jobApplicant.rating" 
+            }
+        }
+       
+        return authFetchGet(url, 'GET');
+}
+// emploees end 

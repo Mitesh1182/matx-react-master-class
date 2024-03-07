@@ -32,7 +32,7 @@ const ViewApplivastionSlice = createSlice({
     advancesearchviewfailgetJobrequest : function(state, {payload}){
         state.isloading = false;
         state.error = payload;
-    }
+    },
   }
 });
 
