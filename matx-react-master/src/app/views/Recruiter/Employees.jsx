@@ -24,7 +24,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { advancesearchuserrequest, employeegetuserrequest } from 'slice/recruiter/applicant/ProfileupdateSlice';
+import { advancesearchuserrequest, employeegetuserrequest, endjobUserdeleterequst, ratingputapplicanterequest, } from 'slice/recruiter/applicant/ProfileupdateSlice';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -434,17 +434,53 @@ const Employees = () => {
 // end job poup start
 
   const [popopen, setpopOpen] = useState(false);
+  const [idToendjob, setIdToendjob] = useState();
+  const [status, setStatus] = useState();
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id, status) => {
     setpopOpen(true);
+    setIdToendjob(id)
   };
 
   const handleClose = () => {
     setpopOpen(false);
   };
+
+  const SubmitEndJOb =(e) =>{
+    e.preventDefault() 
+     dis(endjobUserdeleterequst({
+      dateOfJoining : new Date().toLocaleDateString(),
+      status : 'finished',
+      id : idToendjob
+     }))
+  }
 // end job poup end 
+// rating job poup start
+const [ratingget, setRatingget] = useState();
+// console.log(ratingget)
+const [idrating, setIdrating] = useState('');
+// const [value, setValue] = useState(ratingget);
+const [ratingopen, setRatingopen] = useState(false);
+const handleClickOpenrating = (id, rating) => {
+  setRatingopen(true);
+  setRatingget(rating)
+  setIdrating(id)
+};
+
+  const handleCloserating = () => {
+    setRatingopen(false);
+  };
+  const ratingSubmit =(e)=>{
+    e.preventDefault() 
+    dis(ratingputapplicanterequest({
+      rating : ratingget,
+      applicantId : idrating
+    }))
+  handleCloserating()
+  }
+// rating job poup end 
     const data = useSelector((state)=>state.applicantuser.data);
-    console.log(data)
+    // console.log(data)
     const[user, setUser]=useState("")
     useEffect(()=>{
         setUser(data)
@@ -490,9 +526,10 @@ const Employees = () => {
           </Grid>
 
 
-          { 
-        <div style={{gap:"15px"}}>
-          {
+   
+        <div style={{gap:"15px", marginBottom:"35px"}}>
+               {data?.length > 0 ? (
+         
             data?.map((v) => {
               return (
                 
@@ -557,7 +594,7 @@ const Employees = () => {
                 // width:'365px'
                 padding: '25px 163px 26px 148px'
               }}
-              onClick={ handleClickOpen}
+              onClick={()=>{handleClickOpen(v._id)}}
             >
               End Job
             </Button>
@@ -568,9 +605,7 @@ const Employees = () => {
               variant="contained"
               color="primary"
             //   className={classes.statusBlock}
-              onClick={() => {
-                setOpen(true);
-              }}
+              onClick={ ()=>{handleClickOpenrating(v._id, v.jobApplicant.rating)}}
             >
 
               Rate Applicant
@@ -584,9 +619,14 @@ const Employees = () => {
               )
 
             })
-          }
+          
+          ) : (
+            <Typography variant="h5" style={{ textAlign: "center" }}>
+              No Applicant Found
+            </Typography>
+          )}
         </div>
-      }
+ 
     </Container>
     <Dialog
         open={popopen}
@@ -600,11 +640,34 @@ const Employees = () => {
         </DialogTitle>
        
         <DialogActions style={{display:"flex", justifyContent:"space-around"}}>
-          <Button  style={{backgroundColor:"red", color:"white", padding:"6px 18px"}} autoFocus>
+          <Button onClick={SubmitEndJOb}  style={{backgroundColor:"red", color:"white", padding:"6px 18px"}} autoFocus>
             DELETE
           </Button>
           <Button autoFocus onClick={handleClose}  style={{backgroundColor:"#222944", color:"white", padding:"6px 18px"}}>
             CANCEL
+          </Button>
+        </DialogActions>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={ratingopen}
+        onClose={handleCloserating}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+        <Rating
+        style={{textAlign:"center",margin:"23px 55px",fontSize:'28px'}}
+  name="rating"
+  value={ratingget === -1 ? null : ratingget}
+  onChange={(event, newValue) => {
+    setRatingget(newValue);
+  }}
+/>
+        <DialogActions  style={{display:"flex", justifyContent:"space-around"}}>
+          <Button   onClick={ratingSubmit}  style={{backgroundColor:"red", color:"white", padding:"6px 18px"}} autoFocus >
+            SUBMIT
           </Button>
         </DialogActions>
         </DialogContent>

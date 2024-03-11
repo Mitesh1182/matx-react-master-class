@@ -163,6 +163,7 @@ const buttonSet = {
           style={{
             background: colorSet["finished"],
             color: "#ffffff",
+            padding:'33px 151px'
           }}
         >
           Finished

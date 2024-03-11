@@ -1,6 +1,6 @@
-import { Faileadvancesearchuserrequest, Sucadvancesearchuserrequest, advancesearchuserrequest, applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, employeeFailgetuserrequest, employeeSucgetuserrequest, employeegetuserrequest, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess } from "slice/recruiter/applicant/ProfileupdateSlice"
+import { Faileadvancesearchuserrequest, FaileendjobUserdeleterequst, Faileratingputapplicanterequest, Sucadvancesearchuserrequest, SucendjobUserdeleterequst, Sucratingputapplicanterequest, advancesearchuserrequest, applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, employeeFailgetuserrequest, employeeSucgetuserrequest, employeegetuserrequest, endjobUserdeleterequst, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess, ratingputapplicanterequest } from "slice/recruiter/applicant/ProfileupdateSlice"
 import { call, put, takeEvery } from "redux-saga/effects"
-import { GetApplicants, advancedsearchemployeegetuser, advanceviewjobpoup, applicantuserputData, employeegetuser, getjobupdatedata } from "service/recruiter/recruiterjob"
+import { GetApplicants, advancedsearchemployeegetuser, advanceviewjobpoup, applicantuserputData, employeegetuser, endjobgetRequest, getjobupdatedata, ratinggetRequest } from "service/recruiter/recruiterjob"
 import { advancesearchviewfailgetJobrequest, advancesearchviewgetJobrequest, advancesearchviewsucgetJobrequest, viewfailgetJobrequest, viewgetJobrequest, viewsucgetJobrequest } from "slice/recruiter/ViewApplivastionSlice"
 
 
@@ -118,3 +118,47 @@ export function* whatchadvancedSrarchgetuser ()
 
 
 // employees get user end
+
+
+// end job get user start
+
+function* endjobemployeesGetuser (action)
+
+{
+  try{
+    let mydat = yield call(endjobgetRequest, action.payload)
+  yield put(SucendjobUserdeleterequst(mydat))
+}
+catch(error){
+     yield put(FaileendjobUserdeleterequst(error))
+ }
+}
+export function* whatchaendjobUserdeleterequst ()
+{
+  return yield takeEvery(endjobUserdeleterequst, endjobemployeesGetuser )
+}
+
+
+// end job get user end
+
+
+// rating update start
+
+function* enratingemployeesGetuser (action)
+
+{
+  try{
+    let mydat = yield call(ratinggetRequest, action.payload)
+  yield put(Sucratingputapplicanterequest(mydat))
+}
+catch(error){
+     yield put(Faileratingputapplicanterequest(error))
+ }
+}
+export function* whatcharatingrequst ()
+{
+  return yield takeEvery(ratingputapplicanterequest, enratingemployeesGetuser )
+}
+
+
+// rating update end

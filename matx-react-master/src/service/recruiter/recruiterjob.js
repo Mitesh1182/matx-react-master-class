@@ -240,3 +240,22 @@ export const advancedsearchemployeegetuser = (obj) => {
         return authFetchGet(url, 'GET');
 }
 // emploees end 
+
+// end job start
+
+export const endjobgetRequest = (obj) => {
+    
+    return authFetch(`/api/applications/${obj.id}`,'PUT', obj)
+}
+
+
+// end job end 
+// rating start
+
+export const ratinggetRequest = (obj1) => {
+    
+    return authFetch(`/api/rating`,'put', obj1)
+}
+
+
+// rating end 
