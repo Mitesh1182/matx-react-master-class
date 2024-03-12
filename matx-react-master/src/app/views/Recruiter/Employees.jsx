@@ -30,6 +30,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { toast } from 'react-toastify';
 
 
 
@@ -435,9 +436,8 @@ const Employees = () => {
 
   const [popopen, setpopOpen] = useState(false);
   const [idToendjob, setIdToendjob] = useState();
-  const [status, setStatus] = useState();
 
-  const handleClickOpen = (id, status) => {
+  const handleClickOpen = (id) => {
     setpopOpen(true);
     setIdToendjob(id)
   };
@@ -453,13 +453,14 @@ const Employees = () => {
       status : 'finished',
       id : idToendjob
      }))
+     toast.success("Job End Sucessful")
   }
 // end job poup end 
+
+
 // rating job poup start
 const [ratingget, setRatingget] = useState();
-// console.log(ratingget)
-const [idrating, setIdrating] = useState('');
-// const [value, setValue] = useState(ratingget);
+const [idrating, setIdrating] = useState();
 const [ratingopen, setRatingopen] = useState(false);
 const handleClickOpenrating = (id, rating) => {
   setRatingopen(true);
@@ -470,17 +471,21 @@ const handleClickOpenrating = (id, rating) => {
   const handleCloserating = () => {
     setRatingopen(false);
   };
-  const ratingSubmit =(e)=>{
-    e.preventDefault() 
+  const ratingSubmit =()=>{
     dis(ratingputapplicanterequest({
       rating : ratingget,
       applicantId : idrating
     }))
+    toast.success("Rating updated successfully");
   handleCloserating()
+ 
   }
 // rating job poup end 
+
+
+
     const data = useSelector((state)=>state.applicantuser.data);
-    // console.log(data)
+    console.log(data)
     const[user, setUser]=useState("")
     useEffect(()=>{
         setUser(data)
@@ -605,7 +610,7 @@ const handleClickOpenrating = (id, rating) => {
               variant="contained"
               color="primary"
             //   className={classes.statusBlock}
-              onClick={ ()=>{handleClickOpenrating(v._id, v.jobApplicant.rating)}}
+              onClick={ ()=>{handleClickOpenrating(v.userId, v.jobApplicant.rating)}}
             >
 
               Rate Applicant
@@ -660,7 +665,7 @@ const handleClickOpenrating = (id, rating) => {
         <Rating
         style={{textAlign:"center",margin:"23px 55px",fontSize:'28px'}}
   name="rating"
-  value={ratingget === -1 ? null : ratingget}
+  value={ratingget}
   onChange={(event, newValue) => {
     setRatingget(newValue);
   }}

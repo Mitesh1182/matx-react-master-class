@@ -259,3 +259,27 @@ export const ratinggetRequest = (obj1) => {
 
 
 // rating end 
+
+// job rating start
+
+export const ratingforjobRequest = (obj1) => {
+    
+    return authFetch(`/api/rating`,'put', obj1)
+}
+
+
+export const GetratingforjobRequest = (obj) => {
+    
+    return authFetchGet(`/api/rating?id=${obj.id}`,'GET')
+}
+// job rating end 
+
+// APPLICATION start
+
+export const applicationRequest = (obj1) => {
+    
+    return authFetchGet('/api/applications','GET', obj1)
+}
+
+
+// APPLICATION end 

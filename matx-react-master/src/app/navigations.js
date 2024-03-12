@@ -6,6 +6,7 @@ export const navigations = [
   { name: 'Employees', path: '/Recruiter/Employees', icon: 'group' },
   { name: 'ListJob', path: '/applicant/ListJob', icon: 'assignment' },
   { name: 'Applicant Profile', path: '/applicant/ApllicantProfile', icon: 'account_box' },
+  { name: 'Applications', path: '/applicant/Applications', icon: 'account_box' },
  
 ];
 // export const navigationsForApllication = [

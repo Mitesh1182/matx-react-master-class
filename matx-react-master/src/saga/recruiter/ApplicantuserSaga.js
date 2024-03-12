@@ -1,6 +1,6 @@
-import { Faileadvancesearchuserrequest, FaileendjobUserdeleterequst, Faileratingputapplicanterequest, Sucadvancesearchuserrequest, SucendjobUserdeleterequst, Sucratingputapplicanterequest, advancesearchuserrequest, applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, employeeFailgetuserrequest, employeeSucgetuserrequest, employeegetuserrequest, endjobUserdeleterequst, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess, ratingputapplicanterequest } from "slice/recruiter/applicant/ProfileupdateSlice"
+import { Faileadvancesearchuserrequest, Faileapplicationforuserrequest, FaileendjobUserdeleterequst, FaileratingforjobuserPutrequest, Faileratingforjobuserrequest, Faileratingputapplicanterequest, Sucadvancesearchuserrequest, Sucapplicationforuserrequest, SucendjobUserdeleterequst, SucratingforjobuserPutrequest, Sucratingforjobuserrequest, Sucratingputapplicanterequest, advancesearchuserrequest, applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, applicationforuserrequest, employeeFailgetuserrequest, employeeSucgetuserrequest, employeegetuserrequest, endjobUserdeleterequst, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess, ratingforjobuserPutrequest, ratingforjobuserrequest, ratingputapplicanterequest } from "slice/recruiter/applicant/ProfileupdateSlice"
 import { call, put, takeEvery } from "redux-saga/effects"
-import { GetApplicants, advancedsearchemployeegetuser, advanceviewjobpoup, applicantuserputData, employeegetuser, endjobgetRequest, getjobupdatedata, ratinggetRequest } from "service/recruiter/recruiterjob"
+import { GetApplicants, GetratingforjobRequest, advancedsearchemployeegetuser, advanceviewjobpoup, applicantuserputData, applicationRequest, employeegetuser, endjobgetRequest, getjobupdatedata, ratingforjobRequest, ratinggetRequest } from "service/recruiter/recruiterjob"
 import { advancesearchviewfailgetJobrequest, advancesearchviewgetJobrequest, advancesearchviewsucgetJobrequest, viewfailgetJobrequest, viewgetJobrequest, viewsucgetJobrequest } from "slice/recruiter/ViewApplivastionSlice"
 
 
@@ -162,3 +162,62 @@ export function* whatcharatingrequst ()
 
 
 // rating update end
+
+// rating update start
+
+function* ratingForJob (action)
+
+{
+  try{
+    let mydat = yield call(ratingforjobRequest, action.payload)
+  yield put(Sucratingforjobuserrequest(mydat))
+}
+catch(error){
+     yield put(Faileratingforjobuserrequest(error))
+ }
+}
+export function* whatcharatingforjob ()
+{
+  return yield takeEvery(ratingforjobuserrequest, ratingForJob )
+}
+
+function* ratingForJobGet (action)
+
+{
+  try{
+    let mydat = yield call(GetratingforjobRequest, action.payload)
+  yield put(SucratingforjobuserPutrequest(mydat))
+}
+catch(error){
+     yield put(FaileratingforjobuserPutrequest(error))
+ }
+}
+export function* whatchaPutratingforjob ()
+{
+  return yield takeEvery(ratingforjobuserPutrequest, ratingForJobGet )
+}
+
+
+// rating update end
+
+
+// users applications start
+
+function* applictionforuser (action)
+
+{
+  try{
+    let mydat = yield call(applicationRequest, action.payload)
+  yield put(Sucapplicationforuserrequest(mydat))
+}
+catch(error){
+     yield put(Faileapplicationforuserrequest(error))
+ }
+}
+export function* whatchapplicationgrequst ()
+{
+  return yield takeEvery(applicationforuserrequest, applictionforuser )
+}
+
+
+// user applications end
