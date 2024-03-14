@@ -95,7 +95,7 @@ const JwtRegisterApplicant = () => {
        { 
         // navigate('/session/signin');
         toast.success("Register successfull")
-        localStorage.setItem('tokenForapplicant' , JSON.stringify(y))
+        localStorage.setItem('token' , JSON.stringify(y))
        }
     
      }).catch((error)=>{

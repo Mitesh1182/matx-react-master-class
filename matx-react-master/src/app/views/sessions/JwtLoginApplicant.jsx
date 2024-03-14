@@ -70,7 +70,7 @@ const JwtLoginApplicant = () => {
           if(!y.message)
           {
             toast.success("Login Successfull")
-            localStorage.setItem('tokenForapllicant' , JSON.stringify(y))
+            localStorage.setItem('token' , JSON.stringify(y))
             navigate('/');
           }
           else{
