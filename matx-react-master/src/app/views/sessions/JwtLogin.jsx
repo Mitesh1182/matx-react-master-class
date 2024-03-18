@@ -71,7 +71,8 @@ const JwtLogin = () => {
           {
             toast.success("Login Successfull")
             localStorage.setItem('token' , JSON.stringify(y))
-            navigate('/');
+            
+            navigate('/dashboard/default');
           }
           else{
             toast.error("Email and Password is Invalid")
@@ -168,9 +169,19 @@ const JwtLogin = () => {
                         to="/session/signup"
                         style={{ color: theme.palette.primary.main, marginLeft: 5 }}
                       >
-                        Register
+                        Register For Recruiter
                       </NavLink>
-                    </Paragraph>
+
+                    </Paragraph><br/>
+                    <Paragraph>
+                      Don't have an account?
+                      <NavLink
+                        to="/session/signupForApplicant"
+                        style={{ color: theme.palette.primary.main, marginLeft: 5 }}
+                        >
+                        Register For Applicant
+                      </NavLink>
+                        </Paragraph>
                   </form>
                 )}
               </Formik>

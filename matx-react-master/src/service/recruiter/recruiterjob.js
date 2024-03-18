@@ -283,3 +283,15 @@ export const applicationRequest = (obj1) => {
 
 
 // APPLICATION end 
+
+// APPLICATION start
+
+// http://localhost:4444/api/jobs/65f80665d539261b30007283/applications
+
+export const appplyJobs = (obj) => {
+    
+    return authFetch(`/api/jobs/${obj.id}/applications`,'POST', obj)
+}
+
+
+// APPLICATION end 

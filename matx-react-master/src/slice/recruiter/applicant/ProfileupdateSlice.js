@@ -80,7 +80,6 @@ const ProfileupdateSlice = createSlice({
         state.error = payload;
     },
 
-
     ratingforjobuserrequest : function(state, {payload}){
         state.isloading = true;
     },
@@ -118,6 +117,19 @@ const ProfileupdateSlice = createSlice({
         state.isloading = false;
         state.error = payload;
     },
+
+
+     applyjobrequest : function(state, {payload}){
+        state.isloading = true;
+    },
+    Sucapplyjobrequest : function(state, {payload}){
+        state.isloading = false;
+        state.listData = payload;
+    },
+   Faileapplyjobrequest : function(state, {payload}){
+        state.isloading = false;
+        state.error = payload;
+    },
   }
 })
 
@@ -142,6 +154,9 @@ export const {applicantgetuserrequest,applicantgetusersuccess,applicantgetuserfa
     ratingputapplicanterequest,
     Sucratingputapplicanterequest,
     Faileratingputapplicanterequest,
-    FaileendjobUserdeleterequst
+    FaileendjobUserdeleterequst,
+    applyjobrequest,
+    Sucapplyjobrequest,
+    Faileapplyjobrequest
 } = ProfileupdateSlice.actions
 export default ProfileupdateSlice.reducer

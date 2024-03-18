@@ -23,6 +23,7 @@ import { useState } from 'react'
 import { putjobrequest, updatejobrequest } from 'slice/recruiter/updatejob'
 import { toast } from 'react-toastify'
 import { userdeleterequest } from 'slice/recruiter/userSlice'
+import { applyjobrequest } from 'slice/recruiter/applicant/ProfileupdateSlice';
 
 // style of filter start --------->
 
@@ -415,9 +416,11 @@ const [searchOptions, setSearchOptions] = useState({
   },
 });
 const [open, setOpen] = React.useState(false);
-
-const handleClickOpen = () => {
+const [idtoapply, setIdtoapply] = useState('');
+const handleClickOpen = (id) => {
   setOpen(true);
+  setIdtoapply(id)
+  console.log(id)
 };
 const handleModalSubmit = ()=>{
      setOpen(false);
@@ -427,13 +430,31 @@ const handleClose = () => {
   setOpen(false);
 };
 // Filter end ------------>
+
+const applySubmit =(e) =>{
+  e.preventDefault()
+  dis(applyjobrequest({
+    id : idtoapply,
+    ...jobDetails
+  }))
+  handleModalSubmit()
+}
+const [jobDetails ,setJobDetails] = useState('')
+console.log(jobDetails)
+
+const handleInput = (key, value) => {
+  setJobDetails({
+    [key]: value,
+  });
+  
+};
 // search jobs start ==----------------------->
 const handleSubmitForsearch=(e)=>{
   dis (searchgetJobrequest({
     pageNumber : 1,
     searchTerm : e.target.value
   }))
-
+  toast.success("Job application successful")
 }
 
 // search jobs end ==----------------------->
@@ -522,7 +543,7 @@ const clearAll = () => {
       </CardContent>
       
       <CardActions style={{display:"grid"}} >
-      <Button onClick={handleClickOpen} style={{backgroundColor:"#222944", color:"white", padding:"44px 83px", height:"100%"}} size="small">APPLY</Button>
+      <Button onClick={()=>{handleClickOpen(v._id)}} style={{backgroundColor:"#222944", color:"white", padding:"44px 83px", height:"100%"}} size="small">APPLY</Button>
       </CardActions>
       </div>
                </Card>
@@ -555,14 +576,16 @@ const clearAll = () => {
           id="outlined-multiline-static"
           label="Write SOP (upto 250 words)"
           fullWidth
-
           multiline
           rows={9}
+          onChange={(event) =>
+            handleInput("sop", event.target.value)
+          }
         />
     </Box>
         </DialogContent>
         <DialogActions style={{justifyContent:"center", padding:"17px 0px 17px 0px"}}>
-          <Button style={{backgroundColor:"#1976d2",color:"white",padding:"8px 18px"}} onClick={handleModalSubmit}>SUBMIT</Button>
+          <Button style={{backgroundColor:"#1976d2",color:"white",padding:"8px 18px"}} onClick={applySubmit}>SUBMIT</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>
