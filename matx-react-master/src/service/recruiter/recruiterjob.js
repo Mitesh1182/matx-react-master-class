@@ -295,3 +295,19 @@ export const appplyJobs = (obj) => {
 
 
 // APPLICATION end 
+
+
+// shortlisted application 
+// http://localhost:4444/api/applicants?jobId=65f81226f8a3cf28605c629a&desc=dateOfApplication
+export const applicationshortlist = (obj) => {
+     
+    return authFetch(`/api/applicants?jobId=${obj.id}&desc=dateOfApplication`,'POST', obj)
+}
+
+// http://localhost:4444/api/applications/65fbd976604acb2fd026159a
+export const  applicationshortlistID = (obj) => {
+    
+    return authFetch(`/api/applications/${obj.id}`,'POST', obj)
+}
+
+// shortlisted application 

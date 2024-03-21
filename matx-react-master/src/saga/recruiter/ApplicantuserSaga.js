@@ -1,6 +1,6 @@
-import { Faileadvancesearchuserrequest, Faileapplicationforuserrequest, Faileapplyjobrequest, FaileendjobUserdeleterequst, FaileratingforjobuserPutrequest, Faileratingforjobuserrequest, Faileratingputapplicanterequest, Sucadvancesearchuserrequest, Sucapplicationforuserrequest, Sucapplyjobrequest, SucendjobUserdeleterequst, SucratingforjobuserPutrequest, Sucratingforjobuserrequest, Sucratingputapplicanterequest, advancesearchuserrequest, applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, applicationforuserrequest, applyjobrequest, employeeFailgetuserrequest, employeeSucgetuserrequest, employeegetuserrequest, endjobUserdeleterequst, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess, ratingforjobuserPutrequest, ratingforjobuserrequest, ratingputapplicanterequest } from "slice/recruiter/applicant/ProfileupdateSlice"
+import { Faileadvancesearchuserrequest, Faileapplicationforuserrequest, Faileapplicationshortlistrequest, Faileapplyjobrequest, FaileendjobUserdeleterequst, FaileratingforjobuserPutrequest, Faileratingforjobuserrequest, Faileratingputapplicanterequest, Sucadvancesearchuserrequest, Sucapplicationforuserrequest, Sucapplicationshortlistrequest, Sucapplyjobrequest, SucendjobUserdeleterequst, SucratingforjobuserPutrequest, Sucratingforjobuserrequest, Sucratingputapplicanterequest, advancesearchuserrequest, applicantgetuserfaile, applicantgetuserrequest, applicantgetusersuccess, applicationforuserrequest, applicationshortlistrequest, applyjobrequest, employeeFailgetuserrequest, employeeSucgetuserrequest, employeegetuserrequest, endjobUserdeleterequst, putapplicantuserfaile, putapplicantuserrequest, putapplicantusersuccess, ratingforjobuserPutrequest, ratingforjobuserrequest, ratingputapplicanterequest } from "slice/recruiter/applicant/ProfileupdateSlice"
 import { call, put, takeEvery } from "redux-saga/effects"
-import { GetApplicants, GetratingforjobRequest, advancedsearchemployeegetuser, advanceviewjobpoup, applicantuserputData, applicationRequest, appplyJobs, employeegetuser, endjobgetRequest, getjobupdatedata, ratingforjobRequest, ratinggetRequest } from "service/recruiter/recruiterjob"
+import { GetApplicants, GetratingforjobRequest, advancedsearchemployeegetuser, advanceviewjobpoup, applicantuserputData, applicationRequest, applicationshortlist, appplyJobs, employeegetuser, endjobgetRequest, getjobupdatedata, ratingforjobRequest, ratinggetRequest } from "service/recruiter/recruiterjob"
 import { advancesearchviewfailgetJobrequest, advancesearchviewgetJobrequest, advancesearchviewsucgetJobrequest, viewfailgetJobrequest, viewgetJobrequest, viewsucgetJobrequest } from "slice/recruiter/ViewApplivastionSlice"
 
 
@@ -242,3 +242,25 @@ export function* whatchapplyjobrequst ()
 
 
 // apply applications end
+
+
+// applications shortlist start
+
+function* japplicationusershortlist (action)
+
+{
+  try{
+    let mydat = yield call(applicationshortlist, action.payload)
+  yield put(Sucapplicationshortlistrequest (mydat))
+}
+catch(error){
+     yield put(Faileapplicationshortlistrequest(error))
+ }
+}
+export function* whatchapplicationshortlist ()
+{
+  return yield takeEvery(applicationshortlistrequest, japplicationusershortlist )
+}
+
+
+// applications shortlist end

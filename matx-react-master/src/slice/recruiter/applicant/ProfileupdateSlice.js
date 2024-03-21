@@ -130,10 +130,24 @@ const ProfileupdateSlice = createSlice({
         state.isloading = false;
         state.error = payload;
     },
+     applicationshortlistrequest : function(state, {payload}){
+        state.isloading = true;
+    },
+    Sucapplicationshortlistrequest : function(state, {payload}){
+        state.isloading = false;
+        state.listData = payload;
+    },
+   Faileapplicationshortlistrequest : function(state, {payload}){
+        state.isloading = false;
+        state.error = payload;
+    },
   }
 })
 
 export const {applicantgetuserrequest,applicantgetusersuccess,applicantgetuserfaile,putapplicantuserrequest, putapplicantusersuccess ,putapplicantuserfaile,
+    applicationshortlistrequest,
+    Sucapplicationshortlistrequest,
+    Faileapplicationshortlistrequest,
     employeegetuserrequest,
     employeeSucgetuserrequest,
     employeeFailgetuserrequest,
